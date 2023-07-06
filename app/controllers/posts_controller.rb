@@ -1,6 +1,11 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[ show edit update destroy ]
 
+  # GET /feed
+  def feed
+    @last_five_posts = Post.order(created_at: :desc).limit(5).compact
+  end
+
   # GET /posts or /posts.json
   def index
     @posts = Post.all

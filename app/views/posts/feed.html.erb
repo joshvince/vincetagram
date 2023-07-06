@@ -1,0 +1,6 @@
+<div class="bg-gray-50">
+  <% @last_five_posts.each do |post| %>
+    <%= render partial: 'post', locals: { post: } %>
+  <% end %>
+  <%= render partial: 'nav' %>
+</div>
