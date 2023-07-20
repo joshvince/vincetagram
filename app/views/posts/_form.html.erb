@@ -1,44 +1,45 @@
-<div data-controller="photo-form" class="w-screen">
-  <%= form_with(model: post) do |form| %>
-    <% if post.errors.any? %>
-      <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-        <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
 
-        <ul>
-          <% post.errors.each do |error| %>
-            <li><%= error.full_message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
+<%= form_with(
+  model: post,
+  class: "w-full h-full flex flex-col justify-center items-center bg-gray-50",
+  data: { controller: "photo-form" }
+) do |form| %>
+  <% if post.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
 
-
-    <div class="w-screen h-screen flex flex-col justify-center">
-      <img id="preview" src="" alt="Upload your image" class="w-0 h-0 transition-all delay-100 duration-300 ease-in object-cover" data-photo-form-target="imagePreview" />
-
-      <div>
-        <%= form.file_field(
-          :photo,
-          class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full",
-          accept: "image/*",
-          data: { 'photo-form-target': 'fileInput', action: 'change->photo-form#handlePhotoSelection' }
-          ) %>
-      </div>
-    </div>
-
-    <div data-photo-form-target="submitBar" class="hidden fixed bottom-0 w-full p-4 justify-center">
-      <div class="my-5">
-        <%= form.text_area(
-          :caption,
-          rows: 2,
-          placeholder: 'Add a caption for this picture',
-          class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full"
-          )
-        %>
-      </div>
-      <div class="w-full flex justify-end">
-        <%= form.submit(class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer")%>
-      </div>
+      <ul>
+        <% post.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
     </div>
   <% end %>
-</div>
+
+
+  <div class="w-full h-full flex flex-col justify-center items-center flex-1">
+    <img id="preview" src="" alt="Upload your image" class="w-0 h-0 transition-all delay-100 duration-300 ease-in object-cover" data-photo-form-target="imagePreview" />
+
+    <%= form.file_field(
+      :photo,
+      class: "w-32 text-gray-50",
+      accept: "image/*",
+      data: { 'photo-form-target': 'fileInput', action: 'change->photo-form#handlePhotoSelection' }
+      ) %>
+  </div>
+
+  <div data-photo-form-target="submitBar" class="hidden fixed bottom-0 w-full p-4 justify-center">
+    <div class="my-5">
+      <%= form.text_area(
+        :caption,
+        rows: 2,
+        placeholder: 'Add a caption for this picture',
+        class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full"
+        )
+      %>
+    </div>
+    <div class="w-full flex justify-end">
+      <%= form.submit(class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer")%>
+    </div>
+  </div>
+<% end %>
