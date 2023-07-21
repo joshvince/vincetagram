@@ -1,4 +1,5 @@
 class PostsController < ApplicationController
+  before_action :require_user!
   before_action :set_post, only: %i[ show edit update destroy ]
 
   # GET /feed
