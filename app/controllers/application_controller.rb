@@ -12,6 +12,6 @@ class ApplicationController < ActionController::Base
   def require_user!
     return if current_user
     save_passwordless_redirect_location!(User)
-    redirect_to error_path, flash: { error: 'You need to sign in using an email link. Contact an admin' }
+    redirect_to users.sign_in_path
   end
 end
