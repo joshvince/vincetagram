@@ -12,6 +12,6 @@ class ApplicationController < ActionController::Base
   def require_user!
     return if current_user
     save_passwordless_redirect_location!(User)
-    redirect_to users.sign_in_path
+    redirect_to auth.sign_in_path
   end
 end

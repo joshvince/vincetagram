@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  passwordless_for :users
+  passwordless_for :users, at: '/', as: 'auth'
   resources :posts
   get '/', to: 'posts#feed'
   get '/feed', to: 'posts#feed'
