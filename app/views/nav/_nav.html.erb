@@ -10,12 +10,15 @@
       data-controller="nav"
     >
       <% if current_user.admin? %>
+        <%= link_to '/invites', data: { 'nav-target': 'userList' } do %>
+          <i class="fa-solid fa-users fa-xl mr-6"></i>
+        <% end %>
         <%= link_to '/posts/new', data: { 'nav-target': 'newPost'} do %>
-          <i class="fa-solid fa-plus fa-xl mr-4"></i>
+          <i class="fa-solid fa-plus fa-2xl mr-6"></i>
         <% end %>
       <% end %>
       <div
-        class="font-black text-sm uppercase rounded-full p-2 bg-gray-400"
+        class="font-black text-sm uppercase rounded-full p-2 bg-gray-400 text-gray-900"
         data-nav-target="avatar"
         data-action="click->nav#openLogOutForm"
       >

@@ -1,0 +1,25 @@
+<div class="mt-16 p-2">
+  <h1 class="font-black text-6xl mt-4 mb-8">Users</h1>
+  <% @users.each do |u| %>
+    <div class="border border-gray-300 rounded-md my-4 p-4 flex justify-between">
+      <div class="flex flex-col">
+        <div class="font-bold text-xl mb-2"><%= u.name %></div>
+        <div class="text-sm text-gray-600 mb-1"><%= u.email %></div>
+        <div class="text-xs uppercase text-gray-400">
+          <% if u.last_signed_in_at %>
+            Signed in <%= time_ago_in_words(u.last_signed_in_at) %> ago
+          <% else %>
+            Never signed in
+          <% end %>
+        </div>
+      </div>
+      <div class="flex flex-col justify-center">
+        <% if u.admin? %>
+            <span class="text-gray-400">Admin </span>
+        <% else %>
+          <span >Edit </span>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
