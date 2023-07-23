@@ -5,6 +5,7 @@ class User < ApplicationRecord
             format: { with: URI::MailTo::EMAIL_REGEXP }
 
   passwordless_with :email
+  has_many :posts, dependent: :destroy
 
   def initials
     name.split.map { |word| word.first }.take(2).join.upcase

@@ -4,7 +4,7 @@ class PostsController < ApplicationController
 
   # GET /feed
   def feed
-    @last_five_posts = Post.order(created_at: :desc).limit(5).compact
+    @last_five_posts = Post.includes(:user).includes(photo_attachment: :blob).order(created_at: :desc).limit(5).compact
   end
 
   # GET /posts or /posts.json
@@ -27,7 +27,8 @@ class PostsController < ApplicationController
 
   # POST /posts or /posts.json
   def create
-    @post = Post.new(post_params)
+
+    @post = Post.new(post_params.merge(user: current_user))
 
     respond_to do |format|
       if @post.save
