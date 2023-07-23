@@ -10,10 +10,10 @@
       data-controller="nav"
     >
       <% if current_user.admin? %>
-        <%= link_to '/invites', data: { 'nav-target': 'userList' } do %>
+        <%= link_to users_path, data: { 'nav-target': 'userList' } do %>
           <i class="fa-solid fa-users fa-xl mr-6"></i>
         <% end %>
-        <%= link_to '/posts/new', data: { 'nav-target': 'newPost'} do %>
+        <%= link_to new_post_path, data: { 'nav-target': 'newPost'} do %>
           <i class="fa-solid fa-plus fa-2xl mr-6"></i>
         <% end %>
       <% end %>

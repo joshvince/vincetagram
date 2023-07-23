@@ -1,0 +1,29 @@
+<% if response.status == 422 %>
+  <p class="p-4 text-red-600 text-sm text-center">
+    There was an error preventing this user from being saved. Try again.
+  </p>
+<% end %>
+<%= form_with model: user do |form| %>
+  <div class="flex flex-col p-4">
+    <div class="mb-6 flex flex-col">
+      <%= form.label :name, class: 'uppercase text-sm text-gray-400 mb-2 pl-1' %>
+      <%= form.text_field :name, class: 'rounded-md border border-gray-300' %>
+    </div>
+    <div class="mb-6 flex flex-col">
+      <%= form.label :email, class: 'uppercase text-sm text-gray-400 mb-2 pl-1' %>
+      <%= form.text_field :email, class: 'rounded-md border border-gray-300' %>
+    </div>
+    <div class="mb-10 flex flex-col">
+      <%= form.label :admin, class: 'uppercase text-sm text-gray-400 mb-2 pl-1' %>
+      <div>
+        <%= form.check_box :email, disabled: true, class: 'rounded-md border border-gray-300' %>
+        <span class="text-gray-400 text-xs">Can't make admins from UI, ask Josh to do this</span>
+      </div>
+    </div>
+    <%= form.submit(
+      "Edit user",
+      class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer"
+    )
+    %>
+  </div>
+<% end %>
