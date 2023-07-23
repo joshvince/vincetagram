@@ -6,14 +6,33 @@
         <span class="font-black text-sm">Postcard</span>
       <% end %>
       <% if current_user %>
-        <div class="flex justify-center items-center">
+        <div
+          class="flex justify-center items-center"
+          data-controller="nav"
+        >
           <% if current_user.admin? %>
-            <%= link_to new_post_path do %>
+            <%= link_to new_post_path, data: { 'nav-target': 'newPost'} do %>
               <i class="fa-solid fa-plus fa-xl mr-4"></i>
             <% end %>
           <% end %>
-          <div class="font-black text-sm uppercase rounded-full p-2 bg-gray-400">
+          <div
+            class="font-black text-sm uppercase rounded-full p-2 bg-gray-400"
+            data-nav-target="avatar"
+            data-action="click->nav#openLogOutForm"
+          >
             <%= current_user.initials %>
+          </div>
+          <div class="flex justify-center items-center transition-all hidden" data-nav-target="logOutForm">
+            <span class="font-black mr-2">Log out?</span>
+            <div class="rounded-full p-2 px-4 mr-2 bg-green-400 text-sm">
+              <%= link_to users.sign_out_path do %>
+                <i class="fa-solid fa-check text-white"></i>
+              <% end %>
+            </div>
+            <div class="rounded-full p-2 px-4 mr-2 bg-red-400 text-sm">
+              <i class="fa-solid fa-xmark text-white" data-action="click->nav#closeLogOutForm"></i>
+            </div>
+
           </div>
         </div>
       <% end %>
