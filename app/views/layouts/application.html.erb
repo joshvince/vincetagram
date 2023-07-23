@@ -13,7 +13,8 @@
   </head>
 
   <body>
-    <main class="w-screen h-screen flex flex-col">
+    <main class="w-screen h-screen flex flex-col text-gray-700">
+      <%= yield :nav %>
       <%= yield %>
     </main>
   </body>

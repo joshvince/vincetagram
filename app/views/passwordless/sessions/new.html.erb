@@ -7,9 +7,9 @@
       If you need access, get in touch.
     </p>
   <% else %>
-    <% flash.each do |fl| %>
+    <% flash.each do |message| %>
       <p class="p-4 text-green-600 text-sm text-center">
-        <%= fl[1] %>
+        <%= message[1] %>
       </p>
     <% end %>
   <% end %>

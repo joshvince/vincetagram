@@ -5,5 +5,5 @@
 >
   <%= image_tag(url_for(post.photo), class: 'object-contain h-full w-full my-4') if post.photo.attached? %>
   <div class="text-gray-500 px-4 mb-4 text-xs uppercase"><%= time_ago_in_words post.created_at %> ago</div>
-  <div class="text-gray-600 px-4 mb-8"><%=post.caption %></div>
+  <div class="px-4 mb-8"><%=post.caption %></div>
 </div>
