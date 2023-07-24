@@ -39,7 +39,7 @@ export default class extends Controller {
       .then((permission) => {
         if (permission === 'granted') {
           this.notificationRequesterTarget.classList.add('hidden')
-          // this.subscribeToPushNotifications();
+          this.subscribeToPushNotifications();
         } else if (permission === 'denied') {
           this.notificationRequesterTarget.classList.add('hidden')
         } else if (permission === 'default') {
@@ -60,8 +60,13 @@ export default class extends Controller {
         });
       })
       .then((subscription) => {
-        // TODO: send this to the server
-        console.log(subscription);
+        fetch('/add_subscription', {
+          method: 'POST',
+          body: JSON.stringify(subscription),
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        });
       });
   }
 
