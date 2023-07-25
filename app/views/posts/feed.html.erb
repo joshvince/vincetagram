@@ -1,5 +1,5 @@
-<%= render 'nav/nav' %>
 <div class="mt-16 bg-gray-50">
+  <%= render "notification_request" %>
   <% @last_five_posts.each do |post| %>
     <%= render partial: 'post', locals: { post: } %>
   <% end %>

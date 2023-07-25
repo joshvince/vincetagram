@@ -32,6 +32,7 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       if @post.save
+        Notification.publish_for_post(@post)
         format.html { redirect_to feed_path, notice: "Post was successfully created." }
         format.json { render :show, status: :created, location: @post }
       else

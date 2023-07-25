@@ -1,0 +1,17 @@
+<div
+  class="w-full h-24 bg-blue-100 p-4 text-blue-900 flex items-center justify-between hidden"
+  <%# hidden by default because the stimulus controller controls the visibility based on browser perms %>
+  data-service-worker-target="notificationRequester"
+>
+  <div class="flex flex-col">
+    <div class="text-sm font-bold">You can enable notifications</div>
+    <div class="text-xs">They're only sent for new posts</div>
+  </div>
+  <button
+    class="rounded-md py-2 px-4 border-4 border-blue-500 bg-blue-500 text-white hover:border-yellow-500"
+    data-service-worker-target="enableNotificationButton"
+    data-action="click->service-worker#enableNotifications"
+  >
+    Notify me
+  </button>
+</div>
