@@ -1,4 +1,6 @@
 class Notification
+  include ActionView::Helpers::AssetUrlHelper
+
   def self.publish_for_post(post)
     new(post).publish_to_all
   end
@@ -36,8 +38,13 @@ class Notification
 
   def message
     {
-      title: "#{post.user.name} just posted a new photo on Postcard",
-      options: {} #TODO: expand this according to https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration/showNotification
+      title: "#{post.user.name} posted a new photo",
+      options: {
+        badge: asset_path('icons/icon-64.png'),
+        icon: asset_path('icons/icon-128.png'),
+        body: post.caption.truncate(30, separator: ' '),
+        tag: 'postcard-notification'
+      } #TODO: expand this according to https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration/showNotification
     }
   end
 end
