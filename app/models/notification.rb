@@ -1,5 +1,5 @@
 class Notification
-  def self.for_post(post)
+  def self.publish_for_post(post)
     new(post).publish_to_all
   end
 
@@ -8,8 +8,7 @@ class Notification
   end
 
   def publish_to_all
-    #TODO: this should be only active subscriptions not associated with the post.user
-    PushSubscription.all.each { |subscription| publish_to_subscription(subscription) }
+    PushSubscription.where.not(user: post.user).each { |subscription| publish_to_subscription(subscription) }
   end
 
   private
@@ -32,8 +31,7 @@ class Notification
       read_timeout: 5
     )
   rescue WebPush::ExpiredSubscription, WebPush::InvalidSubscription => e
-    puts "found an invalid or expired subscription... skipping"
-    #TODO: this should delete the subscription
+    subscription.destroy!
   end
 
   def message
