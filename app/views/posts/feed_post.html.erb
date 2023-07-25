@@ -1,0 +1,8 @@
+<%= turbo_frame_tag @post, "feed" do %>
+  <div class="bg-white w-screen pt-4 pb-8 flex flex-col justify-between border border-gray-100 rounded-md mb-4">
+    <div class="px-4 text-sm font-bold"><%=@post.user.name %></div>
+    <%= image_tag(url_for(@post.photo), class: 'object-contain h-full w-full my-4') if @post.photo.attached? %>
+    <div class="text-gray-500 px-4 mb-4 text-xs uppercase"><%= time_ago_in_words @post.created_at %> ago</div>
+    <div class="px-4 mb-4"><%=@post.caption %></div>
+  </div>
+<% end %>

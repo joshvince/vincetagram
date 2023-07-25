@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :posts
   get '/', to: 'posts#feed'
   get '/feed', to: 'posts#feed'
+  get '/feed/post/:id', to: 'posts#feed_post', as: 'feed_post'
   get '/error', to: 'error#error', as: :error
   resources :users
 

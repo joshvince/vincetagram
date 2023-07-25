@@ -1,10 +1,14 @@
 class PostsController < ApplicationController
   before_action :require_user!
-  before_action :set_post, only: %i[ show edit update destroy ]
+  before_action :set_post, only: %i[ show edit update destroy feed_post ]
 
   # GET /feed
   def feed
-    @last_five_posts = Post.includes(:user).includes(photo_attachment: :blob).order(created_at: :desc).limit(5).compact
+    @post_ids = Post.all.order(created_at: :desc).select(:id)
+  end
+
+  def feed_post
+    sleep(0.2.seconds)
   end
 
   # GET /posts or /posts.json
