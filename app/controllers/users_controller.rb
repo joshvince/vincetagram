@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
   include Passwordless::ControllerHelpers
-  # This controller should probably really be called Users but passwordless doesn't like intervening
   before_action :require_admin_user!
 
   def index
