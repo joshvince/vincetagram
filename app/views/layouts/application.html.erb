@@ -18,7 +18,7 @@
       window.vapidPublicKey = new Uint8Array(<%= Base64.urlsafe_decode64(ENV['VAPID_PUBLIC_KEY']).bytes %>);
     </script>
 
-    <main class="w-screen h-screen flex flex-col text-gray-700 bg-gray-50">
+    <main class="w-screen h-screen flex flex-col text-slate-700 bg-slate-50">
       <%= render 'nav/nav' %>
       <%= yield %>
     </main>

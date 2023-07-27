@@ -1,7 +1,7 @@
 
 <%= form_with(
   model: post,
-  class: "w-full h-full flex flex-col justify-center items-center bg-gray-50",
+  class: "w-full h-full flex flex-col justify-center items-center bg-slate-50",
   data: { controller: "photo-form" }
 ) do |form| %>
   <% if post.errors.any? %>
@@ -22,7 +22,7 @@
 
     <%= form.file_field(
       :photo,
-      class: "w-32 text-gray-50",
+      class: "w-32 text-slate-50",
       accept: "image/*",
       data: { 'photo-form-target': 'fileInput', action: 'change->photo-form#handlePhotoSelection' }
       ) %>
@@ -34,7 +34,7 @@
         :caption,
         rows: 2,
         placeholder: 'Add a caption for this picture',
-        class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full"
+        class: "block shadow rounded-md border border-slate-200 outline-none px-3 py-2 mt-2 w-full"
         )
       %>
     </div>

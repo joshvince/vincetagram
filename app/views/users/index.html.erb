@@ -1,5 +1,5 @@
 <%# <% debugger %> %>
-<div class="mt-16 p-2 bg-gray-50">
+<div class="mt-16 p-2 bg-slate-50">
   <div class="flex justify-between px-4">
     <h1 class="font-black text-6xl mt-4 mb-8">Users</h1>
     <%= link_to new_user_path, class: "flex flex-col justify-center" do %>
@@ -15,13 +15,13 @@
   <% end %>
   <% @users.each do |u| %>
     <div
-      class="border border-gray-200 rounded-md my-4 p-4 flex justify-between bg-white shadow-md mx-2"
+      class="border border-slate-200 rounded-md my-4 p-4 flex justify-between bg-white shadow-md mx-2"
       data-controller="users"
     >
       <div class="flex flex-col w-3/5">
         <div class="font-bold text-xl mb-2"><%= u.name %></div>
-        <div class="text-sm text-gray-600 mb-1"><%= u.email %></div>
-        <div class="text-xs uppercase text-gray-400">
+        <div class="text-sm text-slate-600 mb-1"><%= u.email %></div>
+        <div class="text-xs uppercase text-slate-400">
           <% if u.last_signed_in_at %>
             Signed in <%= time_ago_in_words(u.last_signed_in_at) %> ago
           <% else %>
@@ -30,14 +30,14 @@
         </div>
         <div class="flex-wrap flex flex-col mt-4">
           <% if token = unclaimed_token(u) %>
-            <div class="text-xs text-gray-400 uppercase cursor-pointer" data-action="click->users#copyTokenToClipboard">
+            <div class="text-xs text-slate-400 uppercase cursor-pointer" data-action="click->users#copyTokenToClipboard">
               Click token to copy
             </div>
           <% else %>
-            <div class="text-xs text-gray-400 uppercase">No outstanding sign in tokens</div>
+            <div class="text-xs text-slate-400 uppercase">No outstanding sign in tokens</div>
           <% end %>
           <div
-            class="text-sm text-gray-500 w-full max-w-full h-6 overflow-x-scroll cursor-pointer"
+            class="text-sm text-slate-500 w-full max-w-full h-6 overflow-x-scroll cursor-pointer"
             data-users-target="token"
             data-action="click->users#copyTokenToClipboard"
           >
@@ -47,7 +47,7 @@
       </div>
       <div class="flex flex-col justify-center">
         <% if u.admin? %>
-          <span class="text-gray-400">Admin </span>
+          <span class="text-slate-400">Admin </span>
         <% else %>
           <%= link_to edit_user_path(u.id) do %>
             <div class="rounded-md py-2 px-4 border border-blue-300 bg-blue-100 hover:border-blue-600 hover:bg-blue-500 hover:text-white">
