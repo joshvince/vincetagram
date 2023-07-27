@@ -1,0 +1,24 @@
+<h1 class="text-3xl font-black m-8 text-center">This site is invite only</h1>
+
+<div class="flex flex-col justify-center items-center text-center mb-4">
+  <i class="fa-solid fa-comment text-4xl mb-2" style="color: #075985;"></i>
+  <p class="w-96">Ask whoever gave you this link to invite you</p>
+</div>
+<div class="flex flex-col justify-center items-center text-center mb-4">
+  <i class="fa-solid fa-wand-magic-sparkles text-4xl mb-2" style="color: #075985;"></i>
+  <p class="w-96">To log back in again, you need a magic link.</p>
+  <p class="font-black text-sky-600 my-1">Enter your email address in the box below</p>
+</div>
+
+<div class="flex flex-col justify-center items-center text-center mb-4">
+  <i class="fa-solid fa-envelope text-4xl mb-2" style="color: #075985;"></i>
+  <p class="w-96">Check your email inbox and get straight in.<br/>No passwords required!</p>
+</div>
+
+<%= form_with model: @session, url: send(Passwordless.mounted_as).sign_in_path, data: { turbo: 'false' } do |f| %>
+  <div class="flex flex-col mt-8">
+    <% email_field_name = :"passwordless[#{@email_field}]" %>
+    <%= text_field_tag email_field_name, params.fetch(email_field_name, nil), required: true, placeholder: 'Enter your email here', class: 'rounded-md border-2 border-slate-100 w-64' %>
+    <%= f.submit I18n.t('passwordless.sessions.new.submit'), class: "rounded-md bg-sky-500 text-white font-bold p-3 my-6 hover:cursor-pointer" %>
+  </div>
+<% end %>
