@@ -1,7 +1,7 @@
 <%= turbo_frame_tag @post, "feed" do %>
   <div class="bg-white pt-3 pb-8 flex flex-col justify-between border border-slate-200 rounded-md shadow-sm mb-4">
     <div class="px-4 flex items-center">
-      <div class="font-black text-sm uppercase rounded-full p-2 bg-slate-400 text-slate-900"><%=@post.user.initials %></div>
+      <%= render 'shared/avatar', user: @post.user %>
       <div class="pl-2 text-sm font-bold"><%=@post.user.name %></div>
     </div>
     <%= image_tag(url_for(@post.photo), class: 'object-contain h-full w-full mt-3 mb-4') if @post.photo.attached? %>

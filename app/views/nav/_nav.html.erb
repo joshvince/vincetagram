@@ -20,11 +20,11 @@
         <% end %>
       <% end %>
       <div
-        class="font-black text-sm uppercase rounded-full p-2 bg-slate-400 text-slate-900 cursor-pointer"
+        class="cursor-pointer"
         data-nav-target="avatar"
         data-action="click->nav#openLogOutForm"
       >
-        <%= current_user.initials %>
+        <%= render 'shared/avatar', user: current_user %>
       </div>
       <div class="flex justify-center items-center transition-all hidden" data-nav-target="logOutForm">
         <span class="font-black mr-2">Log out?</span>
