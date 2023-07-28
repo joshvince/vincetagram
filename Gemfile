@@ -52,6 +52,7 @@ gem 'passwordless'
 gem 'web-push'
 
 gem 'aws-sdk-s3', '~> 1', require: false
+gem 'aws-sdk-ses', '~> 1.6'
 
 # Use Sass to process CSS
 # gem "sassc-rails"

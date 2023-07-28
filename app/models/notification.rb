@@ -24,7 +24,7 @@ class Notification
       p256dh: subscription.keys['p256dh'],
       auth: subscription.keys['auth'],
       vapid: {
-        subject: "mailto:josh@foo.com",
+        subject: "mailto:noreply@mail.vince.family",
         public_key: ENV['VAPID_PUBLIC_KEY'],
         private_key: ENV['VAPID_PRIVATE_KEY']
       },

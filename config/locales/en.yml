@@ -31,3 +31,14 @@
 
 en:
   hello: "Hello world"
+  passwordless:
+      sessions:
+        create:
+          session_expired: 'Your session has expired, please sign in again.'
+          email_sent_if_record_found: "If you've already been invited, we've sent you an email."
+          token_claimed: "This link has already been used, try requesting the link again"
+        new:
+          submit: 'Send a magic link'
+      mailer:
+        subject: "Log in to Postcard: Your magic link ✨"
+        magic_link: "To log into Postcard, follow this link: %{link}"
