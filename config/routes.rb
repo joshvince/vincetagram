@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  passwordless_for :users, at: '/', as: 'auth'
+  passwordless_for :users, at: '/', as: 'auth' #this is the sign in routes
+  get '/manual_sign_in', to: 'manual_sign_in#sign_in_with_token', as: 'manual_sign_in'
   resources :posts
   get '/', to: 'posts#feed'
   get '/feed', to: 'posts#feed'

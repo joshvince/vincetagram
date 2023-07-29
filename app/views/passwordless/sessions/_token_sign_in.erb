@@ -1,0 +1,13 @@
+<div data-controller="sign-in" class="mt-6">
+  <div
+    data-sign-in-target="entryPoint"
+    data-action="click->sign-in#toggleView"
+    class="text-sm underline cursor-pointer"
+  >Already have a token?</div>
+  <div data-sign-in-target="inputForm" class="hidden">
+    <%= form_with url: manual_sign_in_path, method: :get, class: "flex items-center" do |form| %>
+      <%= form.text_field :token, placeholder: "Enter the token", class: "rounded-md border-2 border-slate-100 w-64 h-12" %>
+      <%= form.submit "Sign in", class: "rounded-md bg-sky-500 text-white font-bold p-3 my-6 ml-4 hover:cursor-pointer h-12" %>
+    <% end %>
+  </div>
+</div>

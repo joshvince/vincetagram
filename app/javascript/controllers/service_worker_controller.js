@@ -26,9 +26,12 @@ export default class extends Controller {
   handleDisplayOfNotificationRequester() {
     const currentPermission = Notification.permission;
 
-    if (currentPermission === 'default') {
+    if (
+      currentPermission === 'default' &&
+      this.hasNotificationRequesterTarget
+    ) {
       // Do not show the banner if the user has granted or denied permissions
-      this.notificationRequesterTarget.classList.remove('hidden')
+      this.notificationRequesterTarget.classList.remove('hidden');
     }
   }
 
