@@ -106,4 +106,5 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.hosts << "postcard-production.up.railway.app"
+  config.hosts << "vince.family"
 end
