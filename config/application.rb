@@ -34,5 +34,7 @@ module Postcard
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    config.session_store :cookie_store, expire_after: 1.year, key: '_postcard_session'
   end
 end
