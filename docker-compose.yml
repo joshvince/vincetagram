@@ -1,6 +1,7 @@
 version: "3.8"
 services:
   web:
+    image: "joshmvince/postcard-web:latest"
     build:
       context: .
       args:
@@ -18,7 +19,7 @@ services:
         condition: service_healthy
 
   postgres-db:
-    image: postgres
+    image: "joshmvince/postcard-postgres:latest"
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: password
