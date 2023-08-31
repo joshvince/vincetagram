@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get '/up', to: 'health_check#up'
   passwordless_for :users, at: '/', as: 'auth' #this is the sign in routes
   get '/manual_sign_in', to: 'manual_sign_in#sign_in_with_token', as: 'manual_sign_in'
   resources :posts
