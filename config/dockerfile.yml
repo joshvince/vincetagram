@@ -2,4 +2,6 @@
 
 ---
 options:
+  cache: true
   compose: true
+  platform: linux/amd64
