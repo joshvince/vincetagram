@@ -19,7 +19,7 @@ services:
         condition: service_healthy
 
   postgres-db:
-    image: "joshmvince/postcard-postgres:latest"
+    image: postgres
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: password
