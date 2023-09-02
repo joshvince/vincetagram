@@ -1,0 +1,38 @@
+version: "3.8"
+services:
+  web:
+    image: "joshmvince/postcard-web:latest"
+    build:
+      context: .
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-${UID:-1000}}
+    ports:
+      - "3000:3000"
+    environment:
+      - RAILS_MASTER_KEY=$RAILS_MASTER_KEY
+      - VAPID_PUBLIC_KEY=$VAPID_PUBLIC_KEY
+      - VAPID_PRIVATE_KEY=$VAPID_PRIVATE_KEY
+      - POSTCARD_DATABASE_PASSWORD=$POSTCARD_DATABASE_PASSWORD
+      - DATABASE_URL=$DATABASE_URL
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+
+  postgres-db:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      PGUSER: postgres
+      POSTGRES_PASSWORD: $POSTCARD_DATABASE_PASSWORD
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: pg_isready
+      interval: 2s
+      timeout: 5s
+      retries: 30
+volumes:
+  postgres_data:
