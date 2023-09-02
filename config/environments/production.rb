@@ -108,4 +108,5 @@ Rails.application.configure do
   config.hosts << "postcard-production.up.railway.app"
   config.hosts << "vince.family"
   config.hosts << "localhost"
+  config.hosts << "192.168.1.79"
 end
