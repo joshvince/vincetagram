@@ -16,6 +16,8 @@ services:
       - POSTCARD_DATABASE_PASSWORD=$POSTCARD_DATABASE_PASSWORD
       - DATABASE_URL=$DATABASE_URL
       - FILE_STORAGE_ROOT=$FILE_STORAGE_ROOT
+    volumes:
+      - /home/josh/archive/pictures-videos/:${FILE_STORAGE_ROOT}
     depends_on:
       postgres-db:
         condition: service_healthy
@@ -35,5 +37,6 @@ services:
       interval: 2s
       timeout: 5s
       retries: 30
+
 volumes:
   postgres_data:
