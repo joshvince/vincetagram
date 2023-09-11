@@ -15,6 +15,7 @@ services:
       - VAPID_PRIVATE_KEY=$VAPID_PRIVATE_KEY
       - POSTCARD_DATABASE_PASSWORD=$POSTCARD_DATABASE_PASSWORD
       - DATABASE_URL=$DATABASE_URL
+      - FILE_STORAGE_ROOT=$FILE_STORAGE_ROOT
     depends_on:
       postgres-db:
         condition: service_healthy
