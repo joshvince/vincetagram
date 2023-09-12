@@ -1,8 +1,20 @@
 <%= turbo_frame_tag @post, "feed" do %>
   <div class="bg-white pt-3 pb-8 flex flex-col justify-between border border-slate-200 rounded-md shadow-sm mb-4">
-    <div class="px-4 flex items-center">
-      <%= render 'shared/avatar', user: @post.user %>
-      <div class="pl-2 text-sm font-bold"><%=@post.user.name %></div>
+    <div class="px-4 flex justify-between">
+      <div class="flex items-center">
+        <%= render 'shared/avatar', user: @post.user %>
+        <div class="pl-2 text-sm font-bold"><%=@post.user.name %></div>
+      </div>
+      <div
+        data-controller="post"
+        data-post-target="shareLink"
+        data-post-url-value=<%= post_url(@post) %>
+        data-action="click->post#copyLinkToClipboard"
+        class="flex items-center text-sm text-gray-600 cursor-pointer"
+      >
+        Copy link
+        <i class="fa-solid fa-link fa-md mx-2"></i>
+      </div>
     </div>
     <%= image_tag(url_for(@post.photo), class: 'object-contain h-full w-full mt-3 mb-4') if @post.photo.attached? %>
     <div class="text-slate-500 px-4 mb-4 text-xs uppercase"><%= time_ago_in_words @post.created_at %> ago</div>

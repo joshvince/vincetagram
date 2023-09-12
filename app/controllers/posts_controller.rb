@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :require_user!
+  before_action :require_user!, except: %i[ show ]
   before_action :set_post, only: %i[ show edit update destroy feed_post ]
 
   # GET /feed
@@ -31,7 +31,6 @@ class PostsController < ApplicationController
 
   # POST /posts or /posts.json
   def create
-
     @post = Post.new(post_params.merge(user: current_user))
 
     respond_to do |format|

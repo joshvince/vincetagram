@@ -1,15 +1,11 @@
-<div class="mx-auto md:w-2/3 w-full flex">
-  <div class="mx-auto">
-    <% if notice.present? %>
-      <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
-    <% end %>
-
-    <%= render @post %>
-
-    <%= link_to 'Edit this post', edit_post_path(@post), class: "mt-2 rounded-lg py-3 px-5 bg-slate-100 inline-block font-medium" %>
-    <div class="inline-block ml-2">
-      <%= button_to 'Destroy this post', post_path(@post), method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-slate-100 font-medium" %>
+<div class="bg-slate-50 w-full max-w-screen-md flex flex-col items-center justify-center">
+  <div class="bg-white pt-3 pb-8 flex flex-col justify-between border border-slate-200 rounded-md shadow-sm mb-4">
+    <div class="px-4 flex items-center">
+      <%= render 'shared/avatar', user: @post.user %>
+      <div class="pl-2 text-sm font-bold"><%=@post.user.name %></div>
     </div>
-    <%= link_to 'Back to posts', posts_path, class: "ml-2 rounded-lg py-3 px-5 bg-slate-100 inline-block font-medium" %>
+    <%= image_tag(url_for(@post.photo), class: 'object-contain h-full w-full mt-3 mb-4') if @post.photo.attached? %>
+    <div class="text-slate-500 px-4 mb-4 text-xs uppercase"><%= time_ago_in_words @post.created_at %> ago</div>
+    <div class="px-4 mb-4"><%=@post.caption %></div>
   </div>
 </div>
