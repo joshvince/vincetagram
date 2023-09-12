@@ -37,11 +37,6 @@ Nginx configuration is available at the [config repo](https://github.com/joshvin
 - pull the commit
 - IF the environment variables have changed, ensure you amend these on disk before running the next steps
 - `docker-compose down` to stop the service
-- `docker ps -a` to find the container SHA
-- `docker stop <SHA>` to stop it
-- `docker rm <SHA>` to remove the container
-- `docker image ls -a` to find the image SHA
-- `docker rmi <SHA>` to remove the image
 - `docker-compose build` to push a new image
 - `docker-compose up -d` to start it again in the background
 
