@@ -1,7 +1,7 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
-  static targets = [ 'notificationRequester', 'enableNotificationButton' ];
+  static targets = ['notificationRequester', 'enableNotificationButton'];
 
   connect() {
     this.registerServiceWorker()
@@ -26,11 +26,15 @@ export default class extends Controller {
   handleDisplayOfNotificationRequester() {
     const currentPermission = Notification.permission;
 
+    if (window.localStorage.getItem('postcardDismissNotifications')) {
+      return
+    }
+
     if (
       currentPermission === 'default' &&
       this.hasNotificationRequesterTarget
     ) {
-      // Do not show the banner if the user has granted or denied permissions
+      // Only show the banner if the user has not already granted, dismissed or refused permissions
       this.notificationRequesterTarget.classList.remove('hidden');
     }
   }
@@ -83,5 +87,10 @@ export default class extends Controller {
     this.enableNotificationButtonTarget.disabled = false;
     this.enableNotificationButtonTarget.classList.remove('bg-slate-300');
     this.enableNotificationButtonTarget.innerHTML = 'Notify me';
+  }
+
+  dismiss() {
+    window.localStorage.setItem('postcardDismissNotifications', true)
+    this.notificationRequesterTarget.remove()
   }
 }
