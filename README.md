@@ -31,6 +31,13 @@ The port is exposed via docker, check the box for specific configuration. No por
 
 Nginx configuration is available at the [config repo](https://github.com/joshvince/vince-family-archive-config)
 
+## Images and Videos
+The rails server stores ActiveStorage blobs in a volume which is defined in the BLOB_STORAGE_ROOT environment variable. This needs to be present on the server and should not be wiped with each deploy. Make sure that this directory is gitignored otherwise you'll delete all the files when you deploy...
+
+Images themselves are sync'd when they are saved from the blob directory to the main archive on the server, which is defined in the FILE_STORAGE_ROOT environment variable. The rails app does not destroy or change anything in that directory, it only writes to it.
+
+# Development
+
 ## Deploying
 - Push a commit.
 - ssh into the server and change into the `postcard` directory

@@ -25,6 +25,8 @@
 /tmp/storage/*
 !/tmp/storage/
 !/tmp/storage/.keep
+# We store activeStorage blobs in a specific directory, which is a docker volume on production
+/tmp/active_storage_blobs
 
 /public/assets
 
