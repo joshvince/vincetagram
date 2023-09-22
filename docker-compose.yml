@@ -19,7 +19,7 @@ services:
       - BLOB_STORAGE_ROOT=$BLOB_STORAGE_ROOT
     volumes:
       - /home/josh/archive/pictures-videos/:${FILE_STORAGE_ROOT}
-      - /home/josh/archive/postcard-active-storage-blobs/:${BLOB_STORAGE_ROOT}
+      - /home/josh/postcard-active-storage-blobs/:${BLOB_STORAGE_ROOT}
     depends_on:
       postgres-db:
         condition: service_healthy

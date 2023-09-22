@@ -61,12 +61,15 @@ RUN --mount=type=cache,id=dev-apt-cache,sharing=locked,target=/var/cache/apt \
 COPY --from=build /usr/local/bundle /usr/local/bundle
 COPY --from=build /rails /rails
 
+# Create an empty directory where we store active storage blobs
+RUN mkdir -p active_storage_blobs
+
 # Run and own only the runtime files as a non-root user for security
 ARG UID=1003 \
     GID=1003
 RUN groupadd -f -g $GID rails && \
     useradd -u $UID -g $GID rails --create-home --shell /bin/bash && \
-    chown -R rails:rails db log tmp
+    chown -R rails:rails db log tmp active_storage_blobs
 USER rails:rails
 
 # Deployment options
