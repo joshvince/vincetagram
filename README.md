@@ -1,5 +1,5 @@
 # README
-Postcard is a private image-based social network designed for me and my family to store and share images to people we know.
+Vincetagram is a private image-based social network designed for me and my family to store and share images to people we know. The app is also sometimes known as "Postcard".
 
 The app has very basic image sharing functionality - admin users can upload posts containing images and normal users can see these.
 
@@ -33,17 +33,19 @@ Nginx configuration is available at the [config repo](https://github.com/joshvin
 
 ## Deploying
 - Push a commit.
-- ssh into the server and change into the postcard directory
+- ssh into the server and change into the `postcard` directory
 - pull the commit
 - IF the environment variables have changed, ensure you amend these on disk before running the next steps
 - `docker-compose down` to stop the service
+- `docker-compose build` to push a new image
+- `docker-compose up -d` to start it again in the background
+
+If you need to manually update the docker resources:
 - `docker ps -a` to find the container SHA
 - `docker stop <SHA>` to stop it
 - `docker rm <SHA>` to remove the container
 - `docker image ls -a` to find the image SHA
 - `docker rmi <SHA>` to remove the image
-- `docker-compose build` to push a new image
-- `docker-compose up -d` to start it again in the background
 
 ## Logs
 On the server box, `docker logs <SHA>` of a container to see the logs

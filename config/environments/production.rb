@@ -105,7 +105,7 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  config.hosts << "postcard-production.up.railway.app"
+  config.hosts << "vincetagram.vince.family"
   config.hosts << "vince.family"
   config.hosts << "localhost"
   config.hosts << "192.168.1.79"

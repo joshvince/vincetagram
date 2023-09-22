@@ -40,5 +40,5 @@ en:
         new:
           submit: 'Send a magic link'
       mailer:
-        subject: "Log in to Postcard: Your magic link ✨"
-        magic_link: "To log into Postcard, follow this link: %{link}"
+        subject: "Log in to Vincetagram: Your magic link ✨"
+        magic_link: "To log into Vincetagram, follow this link: %{link}"
