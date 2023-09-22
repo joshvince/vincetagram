@@ -23,10 +23,17 @@ Although we run the production application in docker, I haven't set up the devel
 # Production
 This is currently deployed on my home server using docker.
 
+## Docker
 Environment variables are drawn from a .env file stored on the server and pulled into the docker container.
 
 See the dockerfile for more information. We use `docker-compose` to orchestrate the app container and the associated services (postgres)
 
+## Rails app user
+The app runs as a user, `rails`, with an ID of 1003. Sometimes it has to interact with the filesystem on the host machine. If it needs to interact with more places on the host machine's filesystem, you will need to update the permissions on the host machine to reference the rails user.
+
+If in doubt, check out the directories already referenced as volume mounts in the `docker-compose.yml` file, see their permissions, and copy that.
+
+## Nginx
 The port is exposed via docker, check the box for specific configuration. No port is exposed to the internet, instead everything funnels through an NGINX reverse proxy, which is exposed via a Cloudflare tunnel.
 
 Nginx configuration is available at the [config repo](https://github.com/joshvince/vince-family-archive-config)
