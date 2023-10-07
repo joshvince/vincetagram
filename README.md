@@ -3,8 +3,6 @@ Vincetagram is a private image-based social network designed for me and my famil
 
 The app has very basic image sharing functionality - admin users can upload posts containing images and normal users can see these.
 
-The app is also a progressive web app that can be installed on devices and will send notifications if you allow it to. In 2023, this is a still a janky fucking mess because support for these standards is mixed. But it does theoretically work.
-
 Auth happens by a magic email link, there are no passwords at all. Admin users are the only users who can invite someone, and then that person will receive an email to sign in. If they get logged out, they can generate another link again. The tokens are single use.
 
 The emails are sent via Amazon SES. Credentials are included on the production box.

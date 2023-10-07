@@ -1,5 +1,4 @@
 <div class="bg-slate-50 w-full max-w-screen-md flex flex-col items-center justify-center">
-  <%= render "notification_request" %>
   <% @post_ids.each do |post_id| %>
     <%= turbo_frame_tag post_id, "feed", src: feed_post_path(post_id), loading: "lazy" do %>
       <div class="animate-pulse bg-white w-screen pt-4 pb-8 flex flex-col justify-between border border-slate-100 rounded-md mb-4">
