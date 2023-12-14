@@ -1,11 +1,2 @@
-<div class="bg-slate-50 w-full max-w-screen-md flex flex-col items-center justify-center">
-  <div class="bg-white pt-3 pb-8 flex flex-col justify-between border border-slate-200 rounded-md shadow-sm mb-4">
-    <div class="px-4 flex items-center">
-      <%= render 'shared/avatar', user: @post.user %>
-      <div class="pl-2 text-sm font-bold"><%=@post.user.name %></div>
-    </div>
-    <%= image_tag(url_for(@post.photo), class: 'object-contain h-full w-full mt-3 mb-4') if @post.photo.attached? %>
-    <div class="text-slate-500 px-4 mb-4 text-xs uppercase"><%= time_ago_in_words @post.created_at %> ago</div>
-    <div class="px-4 mb-4"><%=@post.caption %></div>
-  </div>
-</div>
+
+<%= render partial: 'posts/post' %>

@@ -8,6 +8,7 @@ class PostsController < ApplicationController
   end
 
   def feed_post
+    # This is just to add a delay to show the loading indicator otherwise things were too fast
     sleep(0.2.seconds)
   end
 

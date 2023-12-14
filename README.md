@@ -37,9 +37,21 @@ The port is exposed via docker, check the box for specific configuration. No por
 Nginx configuration is available at the [config repo](https://github.com/joshvince/vince-family-archive-config)
 
 ## Images and Videos
-The rails server stores ActiveStorage blobs in a volume which is defined in the BLOB_STORAGE_ROOT environment variable. This needs to be present on the server and should not be wiped with each deploy. Make sure that this directory is gitignored otherwise you'll delete all the files when you deploy...
+When images are uploaded, the Rails server stores them as an ActiveStorage blob.
 
-Images themselves are sync'd when they are saved from the blob directory to the main archive on the server, which is defined in the FILE_STORAGE_ROOT environment variable. The rails app does not destroy or change anything in that directory, it only writes to it.
+These blobs are stored in a volume which is defined in the BLOB_STORAGE_ROOT environment variable drawn from the .env file on the outer system which will run docker. The docker-compose.yml file binds the directory (in the container) in the variable to a volume in the server (outside of the container).
+
+This means that blobs will be stored outside the server, and therefore will not be wiped with each deploy. There's no need to gitignore anything on production, although the `tmp/active_storage_blobs` directory is gitignored as this is the default location to save blobs to in development (controlled by the .env file)
+
+### Syncing the images to the archive
+Images themselves are sync'd when they are saved from the blob directory to the main archive on the server.
+
+The docker-compose.yml file binds the directory (in the container) in the FILE_STORAGE_ROOT environment variable to a volume in the server (outside of the container). This is where the big archive of photos is.
+
+Inside `Post.rb` there's a method to sync the uploaded image to the directory. It builds a directory based on today's date and then writes to a file in the volume (which is outside the docker container).
+
+The rails app does not destroy or change anything in that directory, it only writes to it.
+The Rails app runs using the `rails` user, which has been given write permissions on the outer directory manually from inside the server.
 
 # Development
 
@@ -48,9 +60,9 @@ Images themselves are sync'd when they are saved from the blob directory to the 
 - ssh into the server and change into the `postcard` directory
 - pull the commit
 - IF the environment variables have changed, ensure you amend these on disk before running the next steps
-- `docker-compose down` to stop the service
-- `docker-compose build` to push a new image
-- `docker-compose up -d` to start it again in the background
+- `docker compose down` to stop the service
+- `docker compose build` to push a new image
+- `docker compose up -d` to start it again in the background
 
 If you need to manually update the docker resources:
 - `docker ps -a` to find the container SHA

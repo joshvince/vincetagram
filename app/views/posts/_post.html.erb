@@ -1,10 +1,29 @@
-<% post = local_assigns[:post] %>
-<div
-  id="<%= dom_id post %>"
-  class="bg-white w-screen pt-4 pb-8 flex flex-col justify-between border border-slate-100 rounded-md mb-4"
->
-  <div class="px-4 text-sm font-bold"><%=post.user.name %></div>
-  <%= image_tag(url_for(post.photo), class: 'object-contain h-full w-full my-4') if post.photo.attached? %>
-  <div class="text-slate-500 px-4 mb-4 text-xs uppercase"><%= time_ago_in_words post.created_at %> ago</div>
-  <div class="px-4 mb-4"><%=post.caption %></div>
+<div data-controller="post" data-post-url-value=<%= post_url(@post) %> >
+  <%= render partial: 'posts/loading' %>
+  <div
+    class="bg-white pt-3 pb-8 flex flex-col justify-between border border-slate-200 rounded-md shadow-sm mb-4 hidden"
+    data-post-target="post"
+  >
+    <div class="px-4 flex justify-between">
+      <div class="flex items-center">
+        <%= render 'shared/avatar', user: @post.user %>
+        <div class="pl-2 text-sm font-bold"><%=@post.user.name %></div>
+      </div>
+      <div
+        data-post-target="shareLink"
+        data-action="click->post#copyLinkToClipboard"
+        class="flex items-center text-sm text-gray-600 cursor-pointer"
+      >
+        Copy link
+        <i class="fa-solid fa-link fa-md mx-2"></i>
+      </div>
+    </div>
+    <%= image_tag(
+          @post.photo.representation(resize_to_limit: [600, 600]),
+          class: 'object-contain h-full w-full mt-3 mb-4',
+          data: { action: 'load->post#displayPost', post_target: 'image' }
+        ) if @post.photo.attached? %>
+    <div class="text-slate-500 px-4 mb-4 text-xs uppercase"><%= time_ago_in_words @post.created_at %> ago</div>
+    <div class="px-4 mb-4"><%=@post.caption %></div>
+  </div>
 </div>

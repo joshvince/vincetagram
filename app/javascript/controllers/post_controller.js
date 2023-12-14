@@ -1,12 +1,23 @@
 import { Controller } from '@hotwired/stimulus'
 
 export default class extends Controller {
-  static targets = ['shareLink']
+  static targets = ['shareLink', 'loadingIndicator', 'post', 'image']
   static values = {
     url: String
   }
 
-  copyLinkToClipboard() {
+  connect () {
+    if (this.imageTarget.complete) {
+      this.displayPost()
+    }
+  }
+
+  displayPost () {
+    this.postTarget.classList.remove('hidden')
+    this.loadingIndicatorTarget.remove()
+  }
+
+  copyLinkToClipboard () {
     const currentHTML = this.shareLinkTarget.innerHTML
 
     navigator.clipboard.writeText(this.urlValue)
