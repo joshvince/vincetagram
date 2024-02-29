@@ -58,11 +58,16 @@ The Rails app runs using the `rails` user, which has been given write permission
 ## Deploying
 - Push a commit.
 - ssh into the server and change into the `postcard` directory
-- pull the commit
+- pull the commit (see below if you have issues)
 - IF the environment variables have changed, ensure you amend these on disk before running the next steps
 - `docker compose down` to stop the service
 - `docker compose build` to push a new image
 - `docker compose up -d` to start it again in the background
+
+If you cannot pull the commit
+- check that `keychain` is running
+- add the identity of whatever keys are in the `.ssh` directory with ssh-add
+- the passphrase is stored where secrets are usually kept
 
 If you need to manually update the docker resources:
 - `docker ps -a` to find the container SHA
