@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreatePushSubscriptions < ActiveRecord::Migration[7.0]
   def change
     create_table :push_subscriptions, id: :uuid do |t|

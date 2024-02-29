@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UsersController < ApplicationController
   include Passwordless::ControllerHelpers
   before_action :require_admin_user!
@@ -16,26 +18,21 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-
-    respond_to do |format|
-      if @user.save
-        send_magic_link(@user)
-        format.html { redirect_to users_url, notice: "The user was successfully invited, they should check their inbox" }
-      else
-        format.html { render :new, status: :unprocessable_entity, error: "There was an error, please try again" }
-      end
+    if @user.save
+      send_magic_link(@user)
+      redirect_to users_url, notice: 'The user was successfully invited, they should check their inbox'
+    else
+      render :new, status: :unprocessable_entity, error: 'There was an error, please try again'
     end
   end
 
   def update
     @user = User.find(params[:id])
 
-    respond_to do |format|
-      if @user.update(user_params.merge(admin: false))
-        format.html { redirect_to users_url, notice: "The user was successfully updated" }
-      else
-        format.html { render :edit, status: :unprocessable_entity, error: "There was an error, please try again" }
-      end
+    if @user.update(user_params.merge(admin: false))
+      redirect_to users_url, notice: 'The user was successfully updated'
+    else
+      render :edit, status: :unprocessable_entity, error: 'There was an error, please try again'
     end
   end
 
@@ -43,15 +40,14 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @user.destroy
 
-    respond_to do |format|
-      format.html { redirect_to users_url, notice: "User was successfully deleted." }
-    end
+    redirect_to users_url, notice: 'User was successfully deleted.'
   end
 
   private
 
   def require_admin_user!
     return if current_user&.admin?
+
     save_passwordless_redirect_location!(User)
     redirect_to feed_path
   end

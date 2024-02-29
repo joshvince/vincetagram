@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::Base
   include Passwordless::ControllerHelpers
 
@@ -11,6 +13,7 @@ class ApplicationController < ActionController::Base
 
   def require_user!
     return if current_user
+
     save_passwordless_redirect_location!(User)
     redirect_to auth.sign_in_path
   end

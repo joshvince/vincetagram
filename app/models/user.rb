@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   validates :email,
             presence: true,
@@ -8,7 +10,7 @@ class User < ApplicationRecord
   has_many :posts, dependent: :destroy
 
   def initials
-    name.split.map { |word| word.first }.take(2).join.upcase
+    name.split.map(&:first).take(2).join.upcase
   end
 
   def last_signed_in_at

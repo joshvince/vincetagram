@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This over-rides the active storage's #show method to add the caching headers to images
 Rails.application.reloader.to_prepare do
   ActiveStorage::DiskController.class_eval do

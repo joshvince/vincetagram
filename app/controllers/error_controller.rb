@@ -1,4 +1,5 @@
+# frozen_string_literal: true
+
 class ErrorController < ApplicationController
-  def error
-  end
+  def error; end
 end

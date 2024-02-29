@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module UsersHelper
   def unclaimed_token(user)
     return nil unless user.latest_unclaimed_session
