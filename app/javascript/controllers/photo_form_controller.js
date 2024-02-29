@@ -19,7 +19,7 @@ export default class extends Controller {
     const [file] = this.videoInputTarget.files;
 
     if (!file) { return }
-    if (file.size > 50097152) {
+    if (file.size > 79999999) {
       alert('The file is too large')
       return
     }
