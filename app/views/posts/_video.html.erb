@@ -1,0 +1,6 @@
+<%= video_tag(
+      rails_blob_path(@post.video),
+      class: 'object-contain h-full w-full mt-3 mb-4',
+      controls: true,
+      data: { action: 'loadeddata->post#displayPost', post_target: 'media' }
+    ) %>

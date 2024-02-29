@@ -1,13 +1,13 @@
 import { Controller } from '@hotwired/stimulus'
 
 export default class extends Controller {
-  static targets = ['shareLink', 'loadingIndicator', 'post', 'image']
+  static targets = ['shareLink', 'loadingIndicator', 'post', 'media']
   static values = {
     url: String
   }
 
   connect () {
-    if (this.imageTarget.complete) {
+    if (this.mediaTarget.complete) {
       this.displayPost()
     }
   }

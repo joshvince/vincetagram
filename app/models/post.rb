@@ -1,14 +1,21 @@
 class Post < ApplicationRecord
   has_one_attached :photo
+  has_one_attached :video
   belongs_to :user
 
+  def media
+    return self.video if self.video.attached?
+
+    self.photo
+  end
+
   def sync_file_to_archive
-    full_path_to_file = "#{file_directory}/#{self.photo.filename}"
+    full_path_to_file = "#{file_directory}/#{self.media.filename}"
     # Make the directory if it doesn't exist
     FileUtils.mkdir_p(file_directory)
 
     File.open(full_path_to_file, 'wb') do |file|
-      self.photo_blob.download do |blob|
+      self.media.blob.download do |blob|
         file.write blob
       end
     end
