@@ -108,6 +108,7 @@ Rails.application.configure do
 
   config.hosts << 'vincetagram.vince.family'
   config.hosts << 'vince.family'
+  config.hosts << 'vincefamily.net'
   config.hosts << 'localhost'
   config.hosts << '192.168.1.79'
 end
