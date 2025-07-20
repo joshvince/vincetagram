@@ -44,7 +44,12 @@ The rails app does not destroy or change anything in that directory, it only wri
 The Rails app runs using the `rails` user, which has been given write permissions on the outer directory manually from inside the server.
 
 # Deploying
-Check out the guide in the server config [repo](https://github.com/joshvince/vince-family-archive-config)
+1. SSH into the server
+2. `cd /postcard` (where this repo lives)
+3. `git pull`
+4. `docker compose build && docker compose up -d`
+
+For more detailed deployment information, check out the guide in the server config [repo](https://github.com/joshvince/vince-family-archive-config)
 
 # Congratulations
 You made it to the end. Here's a picture of the app

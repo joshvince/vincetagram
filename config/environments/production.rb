@@ -73,7 +73,7 @@ Rails.application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   config.action_mailer.raise_delivery_errors = true
 
-  config.action_mailer.default_url_options = { host: 'vince.family', protocol: 'https' }
+  config.action_mailer.default_url_options = { host: 'vincefamily.net', protocol: 'https' }
   config.action_mailer.smtp_settings = {
     address: 'email-smtp.eu-west-1.amazonaws.com',
     port: 587,
