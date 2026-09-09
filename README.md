@@ -1,5 +1,5 @@
 # Vincetagram
-Vincetagram is a private image-based social network designed for me and my family to store and share images to people we know. The app is also sometimes known as "Postcard".
+Vincetagram is a private, image-based social network designed for me and my family to store and share images with people we know. The app is also sometimes known as "Postcard".
 
 The app has very basic image sharing functionality - admin users can upload posts containing images or videos, these posts can be viewed in a feed (if you have been invited) or using a direct link to the post.
 
