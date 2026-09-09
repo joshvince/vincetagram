@@ -2,6 +2,7 @@ version: "3.8"
 services:
   web:
     image: "joshmvince/postcard-web:latest"
+    restart: unless-stopped
     build:
       context: .
       args:
@@ -26,6 +27,7 @@ services:
 
   postgres-db:
     image: postgres:15
+    restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
       PGUSER: postgres
