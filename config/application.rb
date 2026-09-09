@@ -38,5 +38,10 @@ module Postcard
     config.generators.system_tests = nil
 
     config.session_store :cookie_store, expire_after: 1.year, key: '_postcard_session'
+
+    # Some migrations use raw SQL (e.g. CREATE SEQUENCE) that the Ruby schema
+    # dumper cannot represent, so db/schema.rb loses that state. Dump the
+    # schema as SQL instead so it round-trips correctly.
+    config.active_record.schema_format = :sql
   end
 end
