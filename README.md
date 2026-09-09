@@ -40,7 +40,7 @@ When a post is created, the media file associated is automatically synced into t
 
 Inside `Post.rb` there's a method to sync the uploaded image to the directory. It builds a directory based on today's date and then writes to a file in the volume (which is outside the docker container).
 
-The rails app does not destroy or change anything in that directory, it only writes to it.
+The Rails app does not destroy or change anything in that directory, it only writes to it.
 The Rails app runs using the `rails` user, which has been given write permissions on the outer directory manually from inside the server.
 
 # Deploying
