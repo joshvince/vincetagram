@@ -1,5 +1,5 @@
 # Vincetagram
-Vincetagram is a private image-based social network designed for me and my family to store and share images to people we know. The app is also sometimes known as "Postcard".
+Vincetagram is a private, image-based social network designed for me and my family to store and share images with people we know. The app is also sometimes known as "Postcard".
 
 The app has very basic image sharing functionality - admin users can upload posts containing images or videos, these posts can be viewed in a feed (if you have been invited) or using a direct link to the post.
 
@@ -40,7 +40,7 @@ When a post is created, the media file associated is automatically synced into t
 
 Inside `Post.rb` there's a method to sync the uploaded image to the directory. It builds a directory based on today's date and then writes to a file in the volume (which is outside the docker container).
 
-The rails app does not destroy or change anything in that directory, it only writes to it.
+The Rails app does not destroy or change anything in that directory, it only writes to it.
 The Rails app runs using the `rails` user, which has been given write permissions on the outer directory manually from inside the server.
 
 # Deploying
