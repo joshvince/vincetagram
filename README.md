@@ -7,7 +7,6 @@ Auth happens by a magic email link, there are no passwords at all. Admin users a
 
 The emails are sent via Amazon SES. Credentials are included on the production box.
 
-
 # Development
 This is a rails app. You need to have Ruby and PSQL installed locally for it to work. Check the `.ruby-version` file for specific version information.
 
