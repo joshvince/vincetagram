@@ -18,6 +18,8 @@ Although we run the production application in docker, I haven't set up the devel
 - `bin/rake db:prepare` to create and migrate the database
 - `bin/dev` to start the application on port 3000
 
+Development and test never touch production data, even if `.env` holds the production values docker-compose uses. They refuse to boot if `DATABASE_URL` is set, store blobs in `storage/` rather than `BLOB_STORAGE_ROOT`, and copy uploads to `storage/archive` (`tmp/storage/archive` in test) rather than `FILE_STORAGE_ROOT`.
+
 # Production
 This is currently deployed on my home server using docker. You can see pretty much exactly how this works in the Dockerfile and docker-compose.yml files. Essentially, we manage the environment from an .env file on the box, using docker to expose volumes to interact with the database and the wider server (as assets are copied from our application to the archive containing my media.)
 
@@ -28,7 +30,7 @@ When images are uploaded, the Rails server stores them as an ActiveStorage blob.
 
 These blobs are stored in a volume which is defined in the BLOB_STORAGE_ROOT environment variable drawn from the .env file on the outer system which will run docker. The docker-compose.yml file binds the directory (in the container) in the variable to a volume in the server (outside of the container).
 
-This means that blobs will be stored outside the server, and therefore will not be wiped with each deploy. There's no need to gitignore anything on production, although the `tmp/active_storage_blobs` directory is gitignored as this is the default location to save blobs to in development (controlled by the .env file)
+This means that blobs will be stored outside the server, and therefore will not be wiped with each deploy. Only production reads BLOB_STORAGE_ROOT. Development stores blobs in the gitignored `storage/` directory.
 
 ### Syncing the images to the archive
 Images themselves are sync'd when they are saved from the blob directory to the main archive on the server. The archive is where I store all of our important documents and media. Vincetagram is the main way we add new media files to the archive.

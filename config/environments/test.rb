@@ -31,6 +31,8 @@ Rails.application.configure do
   # Store uploaded files on the local file system in a temporary directory.
   config.active_storage.service = :test
 
+  config.x.archive_root = Rails.root.join('tmp/storage/archive')
+
   # Tell Action Mailer not to deliver emails to the real world.
   # The :test delivery method accumulates sent emails in the
   # ActionMailer::Base.deliveries array.
@@ -50,4 +52,10 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions.
   config.action_controller.raise_on_missing_callback_actions = true
+
+  # .env can hold production values for docker-compose. Refuse to run against
+  # anything but the local database from config/database.yml.
+  if ENV['DATABASE_URL'].present?
+    raise "DATABASE_URL is set, which would point #{Rails.env} at a non-local database. Unset it to continue."
+  end
 end
