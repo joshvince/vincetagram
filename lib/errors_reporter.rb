@@ -12,6 +12,12 @@ module ErrorsReporter
   # (and the demo app) that have no ActiveSupport to borrow the filter from.
   FILTERED = "[FILTERED]"
 
+  ENDPOINT = "https://errors.joshvince.site/notify"
+
+  # A report is worthless if it delays the response or the crash, so this is a
+  # ceiling on every leg of the POST, not a target.
+  TIMEOUT = 2
+
   def self.filter_params(value, keywords)
     case value
     when Hash
@@ -26,62 +32,82 @@ module ErrorsReporter
     end
   end
 
+  # For the entry points a Rack middleware cannot see: cron scripts, rake tasks,
+  # jobs. Every failure in here is swallowed — the reporter must never turn one
+  # app error into two.
+  def self.report(error, app:, token:, endpoint: ENDPOINT, environment: nil, context: {})
+    deliver(endpoint, token, payload_for(error, app, environment || default_environment, context))
+  rescue StandardError
+    nil
+  end
+
+  # Rails wins when it is loaded, because that is the environment the app is
+  # actually running in; RACK_ENV is the plain-Ruby case.
+  def self.default_environment
+    return Rails.env.to_s if defined?(Rails) && Rails.respond_to?(:env)
+
+    ENV["RACK_ENV"] || "development"
+  end
+
+  def self.payload_for(error, app, environment, context)
+    {
+      app: app,
+      environment: environment,
+      error_class: error.class.name,
+      message: error.message,
+      stack: Array(error.backtrace),
+      context: context
+    }
+  end
+
+  def self.deliver(endpoint, token, payload)
+    uri = URI(endpoint)
+    post = Net::HTTP::Post.new(uri)
+    post["Content-Type"] = "application/json"
+    post["Authorization"] = "Bearer #{token}"
+    post.body = JSON.generate(payload)
+
+    Net::HTTP.start(
+      uri.host, uri.port,
+      use_ssl: uri.scheme == "https",
+      open_timeout: TIMEOUT, read_timeout: TIMEOUT, write_timeout: TIMEOUT
+    ) { |http| http.request(post) }
+  end
+
   # Rack middleware: let the app raise, report the exception, then re-raise it
   # untouched. Reporting is a side channel, so every failure in here is
   # swallowed — the reporter must never turn one app error into two.
   class Middleware
-    # A report is worthless if it delays the response or the crash, so this is a
-    # ceiling on every leg of the POST, not a target.
-    TIMEOUT = 2
-
     # Rails' own logging filter list (sans email), which covers the credentials
     # an app is likely to have in params.
     DEFAULT_PARAM_FILTER = %i[passw secret token authorization api_key _key crypt salt certificate otp ssn cvv cvc].freeze
 
     # `app:` is the reporting app's name in the sink, not the Rack app, so the
     # Rack app keeps the positional slot under a name of its own.
-    def initialize(rack_app, endpoint:, token:, app:, environment: nil, param_filter: [])
+    def initialize(rack_app, token:, app:, endpoint: ENDPOINT, environment: nil, param_filter: [])
       @rack_app = rack_app
       @endpoint = endpoint
       @token = token
       @app_name = app
-      @environment = environment || self.class.default_environment
+      @environment = environment
       @param_filter = DEFAULT_PARAM_FILTER + Array(param_filter)
-    end
-
-    # Rails wins when it is loaded, because that is the environment the app is
-    # actually running in; RACK_ENV is the plain-Rack case.
-    def self.default_environment
-      return Rails.env.to_s if defined?(Rails) && Rails.respond_to?(:env)
-
-      ENV["RACK_ENV"] || "development"
     end
 
     def call(env)
       @rack_app.call(env)
     rescue StandardError => error
-      report(error, env)
+      ErrorsReporter.report(
+        error,
+        endpoint: @endpoint,
+        token: @token,
+        app: @app_name,
+        environment: @environment,
+        context: context_for(env)
+      )
       raise
     end
 
     private
-
-    def report(error, env)
-      deliver(payload_for(error, env))
-    rescue StandardError
-      nil
-    end
-
-    def payload_for(error, env)
-      {
-        app: @app_name,
-        environment: @environment,
-        error_class: error.class.name,
-        message: error.message,
-        stack: Array(error.backtrace),
-        context: context_for(env)
-      }
-    end
 
     def context_for(env)
       request = Rack::Request.new(env)
@@ -111,20 +137,6 @@ module ErrorsReporter
       end
     rescue StandardError
       {}
-    end
-
-    def deliver(payload)
-      uri = URI(@endpoint)
-      post = Net::HTTP::Post.new(uri)
-      post["Content-Type"] = "application/json"
-      post["Authorization"] = "Bearer #{@token}"
-      post.body = JSON.generate(payload)
-
-      Net::HTTP.start(
-        uri.host, uri.port,
-        use_ssl: uri.scheme == "https",
-        open_timeout: TIMEOUT, read_timeout: TIMEOUT, write_timeout: TIMEOUT
-      ) { |http| http.request(post) }
     end
   end
 end
