@@ -1,0 +1,8 @@
+<% token = Rails.application.credentials.dig(:errors_reporter, :token) %>
+
+<% if Rails.env.production? && token.present? %>
+  <script>
+    window.ErrorsReporter = { endpoint: "https://errors.joshvince.site", token: "<%= token %>", app: "vincetagram" };
+  </script>
+  <script src="/errors_reporter.js"></script>
+<% end %>
