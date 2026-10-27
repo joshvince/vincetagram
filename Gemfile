@@ -49,7 +49,7 @@ gem 'bootsnap', require: false
 
 gem 'dotenv-rails'
 
-gem 'passwordless', '~> 0.12.0'
+gem 'passwordless', '~> 1.8'
 
 gem 'web-push'
 

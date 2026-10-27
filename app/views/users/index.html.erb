@@ -27,21 +27,8 @@
             Never signed in
           <% end %>
         </div>
-        <div class="flex-wrap flex flex-col mt-4">
-          <% if token = unclaimed_token(u) %>
-            <div class="text-xs text-slate-400 uppercase cursor-pointer" data-action="click->users#copyTokenToClipboard">
-              Click token to copy
-            </div>
-          <% else %>
-            <div class="text-xs text-slate-400 uppercase">No pending tokens</div>
-          <% end %>
-          <div
-            class="text-sm text-slate-500 w-full max-w-full h-6 overflow-x-scroll cursor-pointer"
-            data-users-target="token"
-            data-action="click->users#copyTokenToClipboard"
-          >
-            <%= token %>
-          </div>
+        <div class="flex-wrap flex flex-col mt-4" id="<%= dom_id(u, :sign_in_link) %>">
+          <%= button_to 'Create sign-in link', user_sign_in_link_path(u), class: 'text-xs text-sky-600 uppercase cursor-pointer' %>
         </div>
       </div>
       <div class="flex flex-col justify-center">

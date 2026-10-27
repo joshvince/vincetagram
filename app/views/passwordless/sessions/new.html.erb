@@ -1,8 +1,22 @@
 <div class="w-full max-w-(--breakpoint-md) flex flex-col justify-center items-center text-slate-700 mt-12 px-4">
-  <% if flash.empty?  %>
-    <%= render 'pre_submit' %>
-  <% else %>
-    <%= render 'post_submit' %>
+  <% if flash.alert.present? %>
+    <p class="w-80 p-3 rounded-md bg-red-50 text-red-600 text-sm text-center"><%= flash.alert %></p>
+  <% elsif flash.notice.present? %>
+    <p class="w-80 p-3 rounded-md bg-sky-50 text-sky-800 text-sm text-center"><%= flash.notice %></p>
   <% end %>
-  <%= render 'token_sign_in' %>
+  <%= render 'pre_submit' %>
+
+  <%= form_with model: @session, url: auth_sign_in_path, data: { turbo: 'false' } do |f| %>
+    <div class="flex flex-col mt-8">
+      <% email_field_name = :"passwordless[#{email_field}]" %>
+      <%= email_field_tag(
+          email_field_name,
+          params.fetch(email_field_name, nil),
+          required: true,
+          placeholder: 'Enter your email here',
+          class: 'rounded-md border-2 border-slate-100 w-64'
+        ) %>
+      <%= f.submit t('passwordless.sessions.new.submit'), class: "rounded-md bg-sky-500 text-white font-bold p-3 my-6 hover:cursor-pointer" %>
+    </div>
+  <% end %>
 </div>
