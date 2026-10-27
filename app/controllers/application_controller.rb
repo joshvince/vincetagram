@@ -15,6 +15,13 @@ class ApplicationController < ActionController::Base
     return if current_user
 
     save_passwordless_redirect_location!(User)
-    redirect_to auth.sign_in_path
+    redirect_to auth_sign_in_path
+  end
+
+  def require_admin_user!
+    return if current_user&.admin?
+
+    save_passwordless_redirect_location!(User)
+    redirect_to feed_path
   end
 end

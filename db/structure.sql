@@ -91,12 +91,11 @@ CREATE TABLE public.passwordless_sessions (
     timeout_at timestamp without time zone NOT NULL,
     expires_at timestamp without time zone NOT NULL,
     claimed_at timestamp without time zone,
-    user_agent text NOT NULL,
-    remote_addr character varying NOT NULL,
-    token character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    authenticatable_id uuid
+    authenticatable_id uuid,
+    token_digest character varying,
+    identifier character varying
 );
 
 
@@ -310,6 +309,20 @@ CREATE UNIQUE INDEX index_active_storage_variant_records_uniqueness ON public.ac
 
 
 --
+-- Name: index_passwordless_sessions_on_identifier; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_passwordless_sessions_on_identifier ON public.passwordless_sessions USING btree (identifier);
+
+
+--
+-- Name: index_passwordless_sessions_on_token_digest; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_passwordless_sessions_on_token_digest ON public.passwordless_sessions USING btree (token_digest);
+
+
+--
 -- Name: index_posts_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -362,15 +375,15 @@ ALTER TABLE ONLY public.active_storage_attachments
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
-('20230705090539'),
-('20230705092028'),
-('20230705093252'),
-('20230705130853'),
-('20230706071623'),
-('20230720155843'),
-('20230720160507'),
-('20230721083804'),
+('20261027190447'),
+('20230724133415'),
 ('20230723154900'),
-('20230724133415');
-
+('20230721083804'),
+('20230720160507'),
+('20230720155843'),
+('20230706071623'),
+('20230705130853'),
+('20230705093252'),
+('20230705092028'),
+('20230705090539');
 

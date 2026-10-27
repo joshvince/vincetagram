@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  include Passwordless::ControllerHelpers
   before_action :require_admin_user!
 
   def index
@@ -45,21 +44,13 @@ class UsersController < ApplicationController
 
   private
 
-  def require_admin_user!
-    return if current_user&.admin?
-
-    save_passwordless_redirect_location!(User)
-    redirect_to feed_path
-  end
-
   # Only allow a list of trusted parameters through.
   def user_params
     params.require(:user).permit(:name, :email, :admin)
   end
 
   def send_magic_link(user)
-    pwless_session = build_passwordless_session(user)
-    pwless_session.save!
-    Passwordless::Mailer.magic_link(pwless_session).deliver_now
+    pwless_session = create_passwordless_session!(user)
+    Passwordless::Mailer.sign_in(pwless_session).deliver_now
   end
 end

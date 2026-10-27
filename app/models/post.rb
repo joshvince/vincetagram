@@ -27,7 +27,7 @@ class Post < ApplicationRecord
 
   def file_directory
     now = Time.zone.now
-    root = ENV.fetch('FILE_STORAGE_ROOT', nil)
+    root = Rails.configuration.x.archive_root
     decade_folder = (now.year / 10 * 10).to_s.concat('s')
     year_folder = now.year.to_s
     month_folder = now.strftime('%B %y')

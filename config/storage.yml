@@ -2,9 +2,11 @@ test:
   service: Disk
   root: <%= Rails.root.join("tmp/storage") %>
 
+# Only production may use BLOB_STORAGE_ROOT, so a .env holding production values
+# can never point development at the real blobs.
 local:
   service: Disk
-  root: <%= ENV['BLOB_STORAGE_ROOT'] %>
+  root: <%= Rails.env.production? ? ENV['BLOB_STORAGE_ROOT'] : Rails.root.join("storage") %>
 
 # Use bin/rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 amazon:

@@ -1,0 +1,10 @@
+<%= turbo_stream.update dom_id(@user, :sign_in_link) do %>
+  <div class="text-xs text-slate-400 uppercase cursor-pointer" data-action="click->users#copyTokenToClipboard">
+    Click link to copy, it works once within the hour
+  </div>
+  <div
+    class="text-sm text-slate-500 w-full max-w-full h-6 overflow-x-scroll cursor-pointer"
+    data-users-target="token"
+    data-action="click->users#copyTokenToClipboard"
+  ><%= @sign_in_link %></div>
+<% end %>

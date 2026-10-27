@@ -1,4 +1,4 @@
-<div class="bg-slate-50 w-full max-w-screen-md flex flex-col items-center justify-center">
+<div class="bg-slate-50 w-full max-w-(--breakpoint-md) flex flex-col items-center justify-center">
   <% @post_ids.each do |post_id| %>
     <%= turbo_frame_tag post_id, "feed", src: feed_post_path(post_id), loading: "lazy" do %>
       <%= render partial: 'posts/loading' %>
