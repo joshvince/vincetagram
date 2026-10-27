@@ -36,7 +36,8 @@ module ErrorsReporter
   # jobs. Every failure in here is swallowed — the reporter must never turn one
   # app error into two.
   def self.report(error, app:, token:, endpoint: ENDPOINT, environment: nil, context: {})
-    deliver(endpoint, token, payload_for(error, app, environment || default_environment, context))
+    environment ||= default_environment
+    deliver(endpoint, token, payload_for(error, app, environment, context))
   rescue StandardError
     nil
   end
@@ -80,7 +81,9 @@ module ErrorsReporter
   class Middleware
     # Rails' own logging filter list (sans email), which covers the credentials
     # an app is likely to have in params.
-    DEFAULT_PARAM_FILTER = %i[passw secret token authorization api_key _key crypt salt certificate otp ssn cvv cvc].freeze
+    DEFAULT_PARAM_FILTER = %i[
+      passw secret token authorization api_key _key crypt salt certificate otp ssn cvv cvc
+    ].freeze
 
     # `app:` is the reporting app's name in the sink, not the Rack app, so the
     # Rack app keeps the positional slot under a name of its own.
@@ -95,9 +98,9 @@ module ErrorsReporter
 
     def call(env)
       @rack_app.call(env)
-    rescue StandardError => error
+    rescue StandardError => e
       ErrorsReporter.report(
-        error,
+        e,
         endpoint: @endpoint,
         token: @token,
         app: @app_name,
