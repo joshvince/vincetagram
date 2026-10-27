@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# Lets an admin create a sign-in link to send someone directly, e.g. by message.
 class SignInLinksController < ApplicationController
   before_action :require_admin_user!
 

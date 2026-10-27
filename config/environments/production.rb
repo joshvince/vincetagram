@@ -24,7 +24,6 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
-  # Where Post#sync_file_to_archive copies uploads: the family photo archive.
   config.x.archive_root = ENV['FILE_STORAGE_ROOT']
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.

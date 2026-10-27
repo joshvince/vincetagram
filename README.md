@@ -3,7 +3,7 @@ Vincetagram is a private, image-based social network designed for me and my fami
 
 The app has very basic image sharing functionality - admin users can upload posts containing images or videos, these posts can be viewed in a feed (if you have been invited) or using a direct link to the post.
 
-Auth happens by a magic email link, there are no passwords at all. Admin users are the only users who can invite someone, and then that person will receive an email to sign in. If they get logged out, they can generate another link again. The tokens are single use.
+Auth happens by a magic email link, there are no passwords at all. Admin users are the only users who can invite someone, and then that person will receive an email to sign in, with a link and a code they can type in instead. If they get logged out, they can generate another link again. Admins can also create a sign-in link for someone from the Users page and send it to them directly. Links are single use and last an hour.
 
 The emails are sent via Amazon SES. Credentials are included on the production box.
 
@@ -13,7 +13,7 @@ This is a rails app. You need to have Ruby and PSQL installed locally for it to 
 Although we run the production application in docker, I haven't set up the development environment to run in docker.
 
 ## Setup
-- Check out `.env.example` for the variables you'll need in your environment
+- Check out `.env.example` for the variables you'll need in your environment. `DATABASE_URL`, `FILE_STORAGE_ROOT` and `BLOB_STORAGE_ROOT` are for production only
 - `bin/bundle install` to install deps
 - `bin/rake db:prepare` to create and migrate the database
 - `bin/dev` to start the application on port 3000
