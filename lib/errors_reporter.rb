@@ -99,18 +99,35 @@ module ErrorsReporter
     def call(env)
       @rack_app.call(env)
     rescue StandardError => e
+      report(env, e)
+      raise
+    end
+
+    private
+
+    def report(env, error)
+      return if rails_client_error?(env, error)
+
       ErrorsReporter.report(
-        e,
+        error,
         endpoint: @endpoint,
         token: @token,
         app: @app_name,
         environment: @environment,
         context: context_for(env)
       )
-      raise
     end
 
-    private
+    # Rails answers the exceptions it maps to a 4xx itself, so a crawler's
+    # /sign_in/xmlrpc.php is a 404 rather than a fire. A failed check reports.
+    def rails_client_error?(env, error)
+      return false unless defined?(ActionDispatch::ExceptionWrapper)
+
+      wrapper = ActionDispatch::ExceptionWrapper.new(env["action_dispatch.backtrace_cleaner"], error)
+      wrapper.status_code < 500
+    rescue StandardError
+      false
+    end
 
     def context_for(env)
       request = Rack::Request.new(env)

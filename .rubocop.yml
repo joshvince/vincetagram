@@ -1,7 +1,6 @@
 AllCops:
   NewCops: enable
   Exclude:
-    # Vendored verbatim from joshvince.site/lib/errors_reporter.rb — lint it there.
     - 'lib/errors_reporter.rb'
     - 'db/**/*'
     - 'config/**/*'
