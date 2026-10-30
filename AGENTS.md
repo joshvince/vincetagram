@@ -11,6 +11,9 @@
 - Start the development server with `bin/dev`. DO NOT pass a port manually, ports are assigned by the environment.
 - take screenshots with the command `screenshot`, if it is available. If it is not available, ask the user
 
+## Production errors
+- Production errors are reported to errors.joshvince.site as app `vincetagram`. Read `.agents/skills/error-triage/SKILL.md` before reading, fixing, resolving or muting any of them.
+
 ## Infrastucture & Deployment
 - Deployment uses the `Dockerfile` and `docker-compose.yml` in the repo root. Tread carefully and avoid running any write operations on production without explicit permission by a human.
 - You might be working in an isolated sandbox, check $VINCEWORKS_CONTEXT. Operating in the sandbox gives you latitude to make changes to the file system, but will prevent you from deploying.
