@@ -1,0 +1,4 @@
+#!/bin/sh
+# Deploys main to vince-archive. Caesar's Deploy playbook runs this in the Mac's main checkout.
+set -e
+exec ssh vince-archive 'cd ~/postcard && git pull --ff-only && docker compose build && docker compose up -d'

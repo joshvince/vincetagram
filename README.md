@@ -45,10 +45,7 @@ The Rails app does not destroy or change anything in that directory, it only wri
 The Rails app runs using the `rails` user, which has been given write permissions on the outer directory manually from inside the server.
 
 # Deploying
-1. SSH into the server
-2. `cd /postcard` (where this repo lives)
-3. `git pull`
-4. `docker compose build && docker compose up -d`
+Run `bin/deploy` from the Mac. It SSHes into vince-archive, pulls main in `~/postcard` (where this repo lives on the box), then runs `docker compose build && docker compose up -d`.
 
 For more detailed deployment information, check out the guide in the server config [repo](https://github.com/joshvince/vince-family-archive-config)
 
