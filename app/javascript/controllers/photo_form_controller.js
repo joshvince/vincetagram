@@ -1,40 +1,51 @@
-import { Controller } from '@hotwired/stimulus';
+import { Controller } from '@hotwired/stimulus'
+
+const MAX_VIDEO_BYTES = 80_000_000
 
 export default class extends Controller {
-  static targets = ['imageInput', 'videoInput', 'imagePreview', 'videoPreview', 'submitBar'];
+  static targets = ['imageInput', 'videoInput', 'chooser', 'preview', 'image', 'video', 'submitBar', 'error']
 
-  handleImageSelection () {
-    const [file] = this.imageInputTarget.files;
+  showImage () {
+    const [file] = this.imageInputTarget.files
+    if (!file) return
 
-    if (!file) { return }
-
-    this.imagePreviewTarget.src = URL.createObjectURL(file);
-    this.imagePreviewTarget.classList.remove('w-0', 'h-0');
-    this.imagePreviewTarget.classList.add('w-full');
-
-    this.hideInputAndShowSubmit()
+    this.videoInputTarget.value = ''
+    this.imageTarget.src = URL.createObjectURL(file)
+    this.imageTarget.hidden = false
+    this.videoTarget.hidden = true
+    this.showPreview()
   }
 
-  handleVideoSelection () {
-    const [file] = this.videoInputTarget.files;
+  showVideo () {
+    const [file] = this.videoInputTarget.files
+    if (!file) return
 
-    if (!file) { return }
-    if (file.size > 79999999) {
-      alert('The file is too large')
+    if (file.size > MAX_VIDEO_BYTES) {
+      this.videoInputTarget.value = ''
+      this.errorTarget.textContent = 'That video is over 80 MB. Try a shorter clip.'
+      this.errorTarget.hidden = false
       return
     }
 
-    this.videoPreviewTarget.src = URL.createObjectURL(file);
-    this.videoPreviewTarget.classList.remove('w-0', 'h-0', 'hidden');
-    this.videoPreviewTarget.classList.add('h-full');
-
-    this.hideInputAndShowSubmit()
+    this.imageInputTarget.value = ''
+    this.videoTarget.src = URL.createObjectURL(file)
+    this.videoTarget.hidden = false
+    this.imageTarget.hidden = true
+    this.showPreview()
   }
 
-  hideInputAndShowSubmit () {
-    this.imageInputTarget.parentNode.classList.add('hidden');
-    this.videoInputTarget.parentNode.classList.add('hidden');
-    this.submitBarTarget.classList.remove('hidden');
-    this.submitBarTarget.classList.add('flex', 'flex-col');
+  reset () {
+    this.imageInputTarget.value = ''
+    this.videoInputTarget.value = ''
+    this.previewTarget.hidden = true
+    this.submitBarTarget.hidden = true
+    this.chooserTarget.hidden = false
+  }
+
+  showPreview () {
+    this.errorTarget.hidden = true
+    this.chooserTarget.hidden = true
+    this.previewTarget.hidden = false
+    this.submitBarTarget.hidden = false
   }
 }

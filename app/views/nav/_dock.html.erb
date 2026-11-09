@@ -1,0 +1,44 @@
+<nav class="dock glass" aria-label="Main" data-controller="sheet">
+  <%= link_to feed_path, class: 'press', aria: { current: ('page' if action_name == 'feed') } do %>
+    <%= icon 'home' %>Feed
+  <% end %>
+  <% if current_user.admin? %>
+    <%= link_to new_post_path, class: 'press' do %>
+      <span class="plus"><%= icon 'plus' %></span>New
+    <% end %>
+    <%= link_to users_path, class: 'press', aria: { current: ('page' if controller_name == 'users') } do %>
+      <%= icon 'users' %>People
+    <% end %>
+  <% end %>
+  <button type="button" class="press" aria-haspopup="dialog" data-action="sheet#open">
+    <%= avatar current_user, size: :sm %>You
+  </button>
+
+  <dialog class="sheet" aria-labelledby="account-name" data-sheet-target="dialog"
+          data-action="click->sheet#closeOnBackdrop cancel->sheet#close:prevent">
+    <div class="sheet-grab" data-action="pointerdown->sheet#drag"></div>
+    <div class="sheet-body">
+      <div class="flex items-center gap-4 px-0.5 pb-1.5">
+        <%= avatar current_user, size: :lg %>
+        <div class="min-w-0">
+          <h2 id="account-name" class="font-display text-2xl font-bold tracking-tight"><%= current_user.name %></h2>
+          <p class="truncate text-ink-2"><%= current_user.email %></p>
+        </div>
+      </div>
+      <div class="swap" data-controller="swap">
+        <div data-swap-target="item">
+          <button type="button" class="btn btn--soft press" data-action="swap#toggle">
+            <%= icon 'out' %><span>Log out</span>
+          </button>
+        </div>
+        <div data-swap-target="item" hidden>
+          <p class="mb-2.5 text-[17px] font-semibold">Log out?</p>
+          <div class="grid grid-cols-2 gap-2.5">
+            <button type="button" class="btn btn--soft press" data-action="swap#toggle">Stay</button>
+            <%= button_to 'Log out', auth_sign_out_path, method: :delete, class: 'btn btn--danger press', form: { class: 'contents' } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+</nav>

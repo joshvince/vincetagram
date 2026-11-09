@@ -1,29 +1,26 @@
-<div data-controller="post" data-post-url-value=<%= post_url(@post) %> >
-  <%= render partial: 'posts/loading' %>
-  <div
-    class="bg-white pt-3 pb-8 flex flex-col justify-between border border-slate-200 rounded-md shadow-xs mb-4 hidden"
-    data-post-target="post"
-  >
-    <div class="px-4 flex justify-between">
-      <div class="flex items-center">
-        <%= render 'shared/avatar', user: @post.user %>
-        <div class="pl-2 text-sm font-bold"><%=@post.user.name %></div>
-      </div>
-      <div
-        data-post-target="shareLink"
-        data-action="click->post#copyLinkToClipboard"
-        class="flex items-center text-sm text-gray-600 cursor-pointer"
-      >
-        Copy link
-        <i class="fa-solid fa-link fa-md mx-2"></i>
-      </div>
+<article class="post" style="<%= post_tint_style(post) %>" data-controller="post">
+  <% if post.video.attached? %>
+    <div class="media" style="<%= post_media_style(post) %>" data-post-target="media">
+      <%= render 'posts/video', post: %>
     </div>
-    <% if @post.video.attached? %>
-      <%= render partial: 'posts/video' %>
-    <% else %>
-      <%= render partial: 'posts/image' %>
+  <% else %>
+    <%= link_to post_path(post), class: 'media', style: post_media_style(post, crop: true),
+                                 aria: { label: "Open #{post.user.name}'s photo" },
+                                 data: { turbo_frame: '_top', post_target: 'media', action: 'post#expand' } do %>
+      <%= render 'posts/image', post:, sizes: '(min-width: 640px) 640px, 100vw' %>
     <% end %>
-    <div class="text-slate-500 px-4 mb-4 text-xs uppercase"><%= time_ago_in_words @post.created_at %> ago</div>
-    <div class="px-4 mb-4"><%=@post.caption %></div>
+  <% end %>
+  <div class="plate">
+    <div class="plate-head">
+      <%= avatar post.user %>
+      <div class="who">
+        <b class="person-name" style="--h: <%= post.user.hue %>"><%= post.user.name %></b>
+        <%= link_to "#{time_ago_in_words(post.created_at)} ago", post_path(post), class: 'ago', data: { turbo_frame: '_top' } %>
+      </div>
+      <%= render 'posts/copy_link', url: post_url(post), label: 'Copy link' %>
+    </div>
+    <% if post.caption.present? %>
+      <p class="caption"><%= post.caption %></p>
+    <% end %>
   </div>
-</div>
+</article>

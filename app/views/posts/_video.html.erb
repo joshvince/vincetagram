@@ -1,6 +1,2 @@
-<%= video_tag(
-      rails_blob_path(@post.video),
-      class: 'object-contain h-full w-full mt-3 mb-4',
-      controls: true,
-      data: { action: 'loadedmetadata->post#displayPost', post_target: 'media' }
-    ) %>
+<%= video_tag rails_blob_path(post.video), controls: true, playsinline: true, preload: 'metadata',
+                                           data: { action: 'loadedmetadata->post#reveal' } %>

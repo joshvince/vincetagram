@@ -1,5 +1,1 @@
-<%= image_tag(
-      @post.photo.representation(resize_to_limit: [600, 600]),
-      class: 'object-contain h-full w-full mt-3 mb-4',
-      data: { action: 'load->post#displayPost', post_target: 'media' }
-    ) %>
+<%= post_photo_tag post, sizes:, decoding: 'async', data: { action: 'load->post#reveal' } %>

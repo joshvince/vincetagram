@@ -1,14 +1,19 @@
-<div class="p-2">
-  <h1 class="font-black text-6xl mt-4 mb-4 p-4">Edit User</h1>
-  <%= render "form", user: @user, submit_button_label: 'Edit user' %>
-  <div class="border-4 border-red-400 rounded-md p-4 mx-4">
-    <div class="text-red-800 font-bold mb-4">Danger zone!</div>
-    <%= button_to(
-      "Delete this user",
-      user_path(@user),
-      method: :delete,
-      class: "w-64 rounded-lg mx-4 py-3 px-5 bg-red-600 text-white inline-block font-medium cursor-pointer",
-      form: { data: { turbo_confirm: 'Are you sure you want to delete this user forever?' } }
-    )%>
+<% content_for :title, "Edit #{@user.name}" %>
+<% content_for :hide_dock, true %>
+<% content_for :body_class, 'presented' %>
+
+<div class="presented-page">
+  <div class="sheet-head">
+    <%= avatar @user %>
+    <h1><%= @user.name %></h1>
+    <%= link_to users_path, class: 'icon-btn press', aria: { label: 'Close' }, data: { controller: 'back', action: 'back#go' } do %>
+      <%= icon 'x' %>
+    <% end %>
+  </div>
+  <div class="sheet-body">
+    <%= render 'form', user: @user, submit_button_label: 'Save changes' %>
+    <hr class="my-2 border-line">
+    <%= button_to 'Delete this user', user_path(@user), method: :delete, class: 'btn btn--soft press text-danger!',
+                                                        form: { data: { turbo_confirm: "Delete #{@user.name} forever?" } } %>
   </div>
 </div>

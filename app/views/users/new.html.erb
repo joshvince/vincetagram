@@ -1,8 +1,18 @@
-<div class="p-2 flex flex-col">
-  <h1 class="font-black text-6xl mt-4 mb-2 p-4">New User</h1>
-  <div class="text-sm px-4 text-slate-500 mb-4">
-    When you submit this form, a link will be automatically sent to them,
-    or they can try and log in themselves
+<% content_for :title, 'New user' %>
+<% content_for :hide_dock, true %>
+<% content_for :body_class, 'presented' %>
+
+<div class="presented-page">
+  <div class="sheet-head">
+    <h1>New user</h1>
+    <%= link_to users_path, class: 'icon-btn press', aria: { label: 'Close' }, data: { controller: 'back', action: 'back#go' } do %>
+      <%= icon 'x' %>
+    <% end %>
   </div>
-  <%= render "form", user: @user, submit_button_label: 'Create and invite new user' %>
+  <div class="sheet-body">
+    <p class="hint text-[14.5px]">
+      When you submit this form, a link will be automatically sent to them, or they can try and log in themselves.
+    </p>
+    <%= render 'form', user: @user, submit_button_label: 'Create and invite new user' %>
+  </div>
 </div>

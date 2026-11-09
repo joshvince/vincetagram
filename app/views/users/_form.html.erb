@@ -1,29 +1,22 @@
-<% if response.status == 422 %>
-  <p class="p-4 text-red-600 text-sm text-center">
-    There was an error preventing this user from being saved. Try again.
-  </p>
-<% end %>
-<%= form_with model: user do |form| %>
-  <div class="flex flex-col p-4">
-    <div class="mb-6 flex flex-col">
-      <%= form.label :name, class: 'uppercase text-sm text-slate-400 mb-2 pl-1' %>
-      <%= form.text_field :name, class: 'rounded-md border border-slate-300' %>
+<%= form_with model: user, class: 'flex flex-col gap-4' do |form| %>
+  <% if user.errors.any? %>
+    <div class="alert" role="alert">
+      <% user.errors.each do |error| %>
+        <p><%= error.full_message %></p>
+      <% end %>
     </div>
-    <div class="mb-6 flex flex-col">
-      <%= form.label :email, class: 'uppercase text-sm text-slate-400 mb-2 pl-1' %>
-      <%= form.text_field :email, class: 'rounded-md border border-slate-300' %>
-    </div>
-    <div class="mb-10 flex flex-col">
-      <%= form.label :admin, class: 'uppercase text-sm text-slate-400 mb-2 pl-1' %>
-      <div>
-        <%= form.check_box :email, disabled: true, class: 'rounded-md border border-slate-300' %>
-        <span class="text-slate-400 text-xs">Can't make admins from UI, ask Josh to do this</span>
-      </div>
-    </div>
-    <%= form.submit(
-      submit_button_label,
-      class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer"
-    )
-    %>
+  <% end %>
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: 'input', autocomplete: 'off', required: true %>
   </div>
+  <div class="field">
+    <%= form.label :email %>
+    <%= form.email_field :email, class: 'input', autocomplete: 'off', inputmode: 'email', required: true %>
+  </div>
+  <label class="hint flex items-start gap-2.5">
+    <%= form.check_box :admin, disabled: true, class: 'mt-0.5 size-5 rounded' %>
+    <span>Admin. This can't be set here; ask Josh to do it.</span>
+  </label>
+  <%= form.submit submit_button_label, class: 'btn press', data: { turbo_submits_with: 'Saving…' } %>
 <% end %>

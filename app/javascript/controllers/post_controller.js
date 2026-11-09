@@ -1,33 +1,20 @@
 import { Controller } from '@hotwired/stimulus'
 
 export default class extends Controller {
-  static targets = ['shareLink', 'loadingIndicator', 'post', 'media']
-  static values = {
-    url: String
+  static targets = ['media']
+
+  mediaTargetConnected (media) {
+    const element = media.querySelector('img, video')
+    if (element?.complete || element?.readyState > 0) this.reveal()
   }
 
-  connect () {
-    if (this.mediaTarget.complete) {
-      this.displayPost()
-    }
+  reveal () {
+    this.mediaTarget.classList.add('is-sharp')
   }
 
-  displayPost () {
-    this.postTarget.classList.remove('hidden')
-    this.loadingIndicatorTarget.remove()
+  // Names the tapped photo so the view transition morphs it into the post page.
+  expand () {
+    document.querySelectorAll('.media').forEach((media) => { media.style.viewTransitionName = '' })
+    this.mediaTarget.style.viewTransitionName = 'hero'
   }
-
-  copyLinkToClipboard () {
-    const currentHTML = this.shareLinkTarget.innerHTML
-
-    navigator.clipboard.writeText(this.urlValue)
-
-    this.shareLinkTarget.innerHTML = 'copied to clipboard!'
-    this.shareLinkTarget.classList.add('text-green-500')
-
-    setTimeout(() => {
-      this.shareLinkTarget.innerHTML = currentHTML
-      this.shareLinkTarget.classList.remove('text-green-500')
-    }, 1000)
-  }
-};
+}

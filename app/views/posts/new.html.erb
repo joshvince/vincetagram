@@ -1,67 +1,52 @@
-<div class="w-full h-full">
-  <%= form_with(
-    model: @post,
-    class: "w-full h-full flex flex-col justify-center items-center bg-slate-50",
-    data: { controller: "photo-form" }
-  ) do |form| %>
-    <% if @post.errors.any? %>
-      <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-        <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
+<% content_for :title, 'New post' %>
+<% content_for :hide_dock, true %>
+<% content_for :body_class, 'presented' %>
 
-        <ul>
+<div class="presented-page">
+  <%= form_with model: @post, class: 'flex flex-1 flex-col', data: { controller: 'photo-form' } do |form| %>
+    <div class="sheet-head">
+      <h1>New post</h1>
+      <%= link_to feed_path, class: 'icon-btn press', aria: { label: 'Close' }, data: { controller: 'back', action: 'back#go' } do %>
+        <%= icon 'x' %>
+      <% end %>
+    </div>
+
+    <div class="sheet-body">
+      <% if @post.errors.any? %>
+        <div class="alert" role="alert">
           <% @post.errors.each do |error| %>
-            <li><%= error.full_message %></li>
+            <p><%= error.full_message %></p>
           <% end %>
-        </ul>
+        </div>
+      <% end %>
+
+      <div class="flex flex-col gap-3" data-photo-form-target="chooser">
+        <label class="tile press">
+          <%= form.file_field :photo, accept: 'image/*', class: 'sr-only',
+                                      data: { photo_form_target: 'imageInput', action: 'photo-form#showImage' } %>
+          <span class="ic"><%= icon 'image' %></span>
+          <span><b>Upload a picture</b><small>From your photos or camera</small></span>
+        </label>
+        <label class="tile press">
+          <%= form.file_field :video, accept: 'video/*', class: 'sr-only',
+                                      data: { photo_form_target: 'videoInput', action: 'photo-form#showVideo' } %>
+          <span class="ic"><%= icon 'video' %></span>
+          <span><b>or a video</b><small>Up to 80 MB</small></span>
+        </label>
+        <p class="alert" role="alert" data-photo-form-target="error" hidden></p>
       </div>
-    <% end %>
 
-    <div class="w-full h-full flex flex-col justify-center items-center flex-1">
-      <img id="preview" src="" alt="Upload your image" class="w-0 h-0 transition-all delay-100 duration-300 ease-in object-cover" data-photo-form-target="imagePreview" />
-      <video
-        id="preview-video"
-        class="w-0 h-0 transition-all delay-100 duration-300 ease-in"
-        controls
-        data-photo-form-target="videoPreview"
-      >
-      </video>
-
-      <div class="h-full flex flex-col">
-        <div class="bg-slate-300 w-screen flex flex-col justify-center items-center p-12 flex-1">
-          <h2 class="font-black text-3xl mb-6">Upload a picture</h2>
-          <%= form.file_field(
-            :photo,
-            class: "w-32 text-xl",
-            accept: "image/*",
-            data: { 'photo-form-target': 'imageInput', action: 'change->photo-form#handleImageSelection' }
-          ) %>
-        </div>
-        <div class="bg-zinc-300 w-screen flex flex-col justify-center items-center p-12 flex-1">
-          <h2 class="font-black text-3xl mb-6">or a video</h2>
-          <%= form.file_field(
-            :video,
-            class: "w-32 text-xl",
-            accept: "video/*",
-            data: { 'photo-form-target': 'videoInput', action: 'change->photo-form#handleVideoSelection' }
-          ) %>
-        </div>
+      <div class="flex flex-col items-center gap-3" data-photo-form-target="preview" hidden>
+        <img class="np-preview" alt="The photo you chose" data-photo-form-target="image" hidden>
+        <video class="np-preview" controls playsinline data-photo-form-target="video" hidden></video>
+        <button type="button" class="chip press bg-field" data-action="photo-form#reset">Choose a different one</button>
       </div>
     </div>
 
-    <div data-photo-form-target="submitBar" class="hidden fixed bottom-0 w-full p-4 justify-center">
-      <div class="my-5">
-        <%= form.text_area(
-          :caption,
-          rows: 2,
-          placeholder: 'Add a caption for this picture',
-          class: "block shadow-sm rounded-md border border-slate-200 outline-hidden px-3 py-2 mt-2 w-full"
-          )
-        %>
-      </div>
-      <div class="w-full flex justify-end">
-        <%= form.submit(class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer")%>
-      </div>
+    <div class="np-bar" data-photo-form-target="submitBar" hidden>
+      <%= form.label :caption, 'Caption', class: 'sr-only' %>
+      <%= form.text_area :caption, rows: 2, class: 'input', placeholder: 'Add a caption for this picture' %>
+      <%= form.submit 'Post', class: 'btn press', data: { turbo_submits_with: 'Posting…' } %>
     </div>
   <% end %>
-
 </div>
