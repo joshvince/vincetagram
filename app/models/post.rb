@@ -1,7 +1,13 @@
 # frozen_string_literal: true
 
 class Post < ApplicationRecord
-  has_one_attached :photo
+  PHOTO_WIDTHS = { small: 720, medium: 1440, large: 2160 }.freeze
+
+  has_one_attached :photo do |attachable|
+    PHOTO_WIDTHS.each do |name, width|
+      attachable.variant name, resize_to_limit: [width, nil], saver: { quality: 85, keep: :icc }, preprocessed: true
+    end
+  end
   has_one_attached :video
   belongs_to :user
 
@@ -9,6 +15,17 @@ class Post < ApplicationRecord
     return video if video.attached?
 
     photo
+  end
+
+  def aspect_ratio
+    return Rational(16, 9) if video.attached?
+
+    width, height = photo.metadata.values_at(:width, :height)
+    width && height ? Rational(width, height) : Rational(4, 5)
+  end
+
+  def tint
+    photo.metadata[:tint] if photo.attached?
   end
 
   def sync_file_to_archive
