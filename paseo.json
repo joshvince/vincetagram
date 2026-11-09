@@ -1,5 +1,0 @@
-{
-  "worktree": {
-    "setup": "~/vinceworks/sandbox/checkout-setup \"$PASEO_WORKTREE_PATH\""
-  }
-}
