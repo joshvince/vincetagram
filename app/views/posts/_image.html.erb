@@ -1,1 +1,1 @@
-<%= post_photo_tag post, sizes:, decoding: 'async', data: { action: 'load->post#reveal' } %>
+<%= image_tag post.photo.variant(:display), alt: post.caption.to_s, decoding: 'async', data: { action: 'load->post#reveal' } %>

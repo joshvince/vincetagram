@@ -7,7 +7,7 @@
     <%= link_to post_path(post), class: 'media', style: post_media_style(post, crop: true),
                                  aria: { label: "Open #{post.user.name}'s photo" },
                                  data: { turbo_frame: '_top', post_target: 'media', action: 'post#expand' } do %>
-      <%= render 'posts/image', post:, sizes: '(min-width: 640px) 640px, 100vw' %>
+      <%= render 'posts/image', post: %>
     <% end %>
   <% end %>
   <div class="plate">

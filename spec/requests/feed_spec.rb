@@ -16,12 +16,13 @@ RSpec.describe 'The feed', type: :request do
     get "/sign_in/#{magic_link.identifier}/#{magic_link.token}"
   end
 
-  it 'serves each photo at three widths, cropped and tinted for the feed' do
+  it 'serves one display copy of each photo, cropped and tinted for the feed' do
     sign_in(user)
 
     get feed_post_path(post_with_photo)
 
-    expect(response.body).to include('720w', '1440w', '2160w', 'aspect-ratio: 2 / 1', '--tint: #0a141e', 'Low tide')
+    expect(response.body).to include('/representations/', 'aspect-ratio: 2 / 1', '--tint: #0a141e', 'Low tide')
+    expect(response.body).not_to include('srcset')
   end
 
   it 'shows a shared post, uncropped, to someone who is signed out' do

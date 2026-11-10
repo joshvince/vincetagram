@@ -3,14 +3,14 @@
 
 <main class="pv" style="<%= post_tint_style(@post) %>" data-controller="post">
   <% if @post.photo.attached? %>
-    <%= image_tag @post.photo.variant(:small), class: 'pv-glow', alt: '', aria: { hidden: true } %>
+    <%= image_tag @post.photo.variant(:display), class: 'pv-glow', alt: '', aria: { hidden: true } %>
   <% end %>
   <div class="column relative">
     <div class="media" style="<%= post_media_style(@post) %>; view-transition-name: hero" data-post-target="media">
       <% if @post.video.attached? %>
         <%= render 'posts/video', post: @post %>
       <% else %>
-        <%= render 'posts/image', post: @post, sizes: '(min-width: 640px) 640px, 100vw' %>
+        <%= render 'posts/image', post: @post %>
       <% end %>
     </div>
     <div class="pv-body">

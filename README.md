@@ -32,10 +32,10 @@ These blobs are stored in a volume which is defined in the BLOB_STORAGE_ROOT env
 
 This means that blobs will be stored outside the server, and therefore will not be wiped with each deploy. Only production reads BLOB_STORAGE_ROOT. Development stores blobs in the gitignored `storage/` directory.
 
-### Display sizes
-The original upload is kept untouched. The feed and post pages show resized copies at 720, 1440 and 2160px wide (`Post::PHOTO_WIDTHS`), generated in the background after upload, and the browser picks one for the screen. When a photo is analysed, `TintedImageAnalyzer` records its width, height and average colour, which the feed uses for the photo's shape and the tint behind its caption.
+### Display copy
+The original upload is kept untouched. The feed and post pages show one copy, 1440px wide and saved as WebP, generated in the background after upload. It is usually 100 to 250KB, a few percent of the original. When a photo is analysed, `TintedImageAnalyzer` records its width, height and average colour, which the feed uses for the photo's shape and the tint behind its caption.
 
-Photos uploaded before this existed have none of that. Run `bin/rails posts:process_photos` once on the server to record it and generate their sizes.
+Photos uploaded before this existed have none of that. Run `bin/rails posts:process_photos` once on the server to record it and generate their copies.
 
 ### Syncing the images to the archive
 Images themselves are sync'd when they are saved from the blob directory to the main archive on the server. The archive is where I store all of our important documents and media. Vincetagram is the main way we add new media files to the archive.
