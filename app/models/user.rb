@@ -13,6 +13,11 @@ class User < ApplicationRecord
     name.split.map(&:first).take(2).join.upcase
   end
 
+  # A stable hue per person, so their avatar and name keep the same colour everywhere.
+  def hue
+    Zlib.crc32(id.to_s) % 360
+  end
+
   def last_signed_in_at
     passwordless_sessions.where.not(claimed_at: nil).order(claimed_at: :desc).first&.claimed_at
   end

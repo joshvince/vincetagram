@@ -1,26 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Vincetagram</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="theme-color" content="#e5e7eb"/>
+    <title><%= content_for?(:title) ? "#{yield(:title)} · Vincetagram" : 'Vincetagram' %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="view-transition" content="same-origin">
+    <meta name="theme-color" content="#F1F2F3" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#08090A" media="(prefers-color-scheme: dark)">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <%= preload_link_tag 'figtree-latin-wght-normal.woff2', as: :font, type: 'font/woff2', crossorigin: 'anonymous' %>
+    <%= stylesheet_link_tag 'fonts', 'tailwind', 'application', 'data-turbo-track': 'reload' %>
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/touch-icon-iphone-retina.png">
     <link rel="apple-touch-icon" sizes="167x167" href="/touch-icon-ipad-retina.png">
-
-    <script src="https://kit.fontawesome.com/f083ee5e23.js" crossorigin="anonymous"></script>
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
-    <%= render "shared/errors_reporter" %>
+    <%= render 'shared/errors_reporter' %>
   </head>
 
-  <body class="text-slate-700 bg-slate-50 pb-8">
-    <main class="w-screen h-screen flex flex-col items-center pt-16">
-      <%= render 'nav/nav' %>
-      <%= yield %>
-    </main>
+  <body class="<%= yield :body_class %>">
+    <%= render 'shared/icons' %>
+    <%= yield %>
+    <%= render 'nav/dock' if current_user && !content_for?(:hide_dock) %>
+    <% if notice.present? %>
+      <div class="toast glass" role="status" data-controller="toast" data-turbo-temporary>
+        <%= icon 'check' %><span><%= notice %></span>
+      </div>
+    <% end %>
   </body>
 </html>

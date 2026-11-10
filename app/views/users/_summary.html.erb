@@ -1,0 +1,14 @@
+<%= avatar user %>
+<div class="min-w-0 flex-1">
+  <div class="nm">
+    <span class="truncate"><%= user.name %></span>
+    <% if user.admin? %><span class="badge">Admin</span><% end %>
+  </div>
+  <div class="em"><%= user.email %></div>
+  <% if (signed_in_at = user.last_signed_in_at) %>
+    <div class="status">Signed in <%= time_ago_in_words(signed_in_at) %> ago</div>
+  <% else %>
+    <div class="status never">Never signed in</div>
+  <% end %>
+</div>
+<% unless user.admin? %><%= icon 'right', class: 'size-[18px] text-ink-3' %><% end %>

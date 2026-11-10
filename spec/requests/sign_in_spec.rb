@@ -75,7 +75,7 @@ RSpec.describe 'Signing in', type: :request do
       sign_in_as(admin)
 
       post user_sign_in_link_path(user), as: :turbo_stream
-      link = response.body[%r{http://\S+/sign_in/[^<\s]+}]
+      link = response.body[%r{http://\S+/sign_in/[^<\s"]+}]
       expect(link).to be_present
 
       delete '/sign_out'

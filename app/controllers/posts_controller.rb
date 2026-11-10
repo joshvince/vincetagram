@@ -9,10 +9,7 @@ class PostsController < ApplicationController
     @post_ids = Post.all.order(created_at: :desc).select(:id)
   end
 
-  def feed_post
-    # This is just to add a delay to show the loading indicator otherwise things were too fast
-    sleep(0.2.seconds)
-  end
+  def feed_post; end
 
   # GET /posts or /posts.json
   def index
@@ -36,7 +33,7 @@ class PostsController < ApplicationController
 
     if @post.save
       @post.sync_file_to_archive
-      redirect_to feed_path, notice: 'Post was successfully created.'
+      redirect_to feed_path, notice: 'Posted to the family', flash: { arrived: @post.id }
     else
       render :new, status: :unprocessable_entity
     end

@@ -1,7 +1,12 @@
 # frozen_string_literal: true
 
 class Post < ApplicationRecord
-  has_one_attached :photo
+  # 1440px covers a 640px column on a 2x screen and a full-width phone at 3x. Values are strings because
+  # copy URLs round-trip through JSON; symbols would make background jobs save a second, unused copy.
+  has_one_attached :photo do |attachable|
+    attachable.variant :display, resize_to_limit: [1440, nil], format: 'webp', saver: { quality: 80, keep: 'icc' },
+                                 preprocessed: true
+  end
   has_one_attached :video
   belongs_to :user
 
@@ -9,6 +14,17 @@ class Post < ApplicationRecord
     return video if video.attached?
 
     photo
+  end
+
+  def aspect_ratio
+    return Rational(16, 9) if video.attached?
+
+    width, height = photo.metadata.values_at(:width, :height)
+    width && height ? Rational(width, height) : Rational(4, 5)
+  end
+
+  def tint
+    photo.metadata[:tint] if photo.attached?
   end
 
   def sync_file_to_archive

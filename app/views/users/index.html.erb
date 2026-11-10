@@ -1,47 +1,38 @@
-<div class="p-2 bg-slate-50 w-full max-w-(--breakpoint-md)">
-  <div class="flex justify-between px-4">
-    <h1 class="font-black text-6xl mt-4 mb-8 mr-4">Users</h1>
-    <%= link_to new_user_path, class: "flex flex-col justify-center" do %>
-      <button class="rounded-md py-2 px-4 border border-blue-300 bg-blue-100 hover:border-blue-600 hover:bg-blue-500 hover:text-white">
-        New user
-      </button>
+<% content_for :title, 'People' %>
+
+<header class="bar" data-controller="condense">
+  <div class="bar-bg"></div>
+  <div class="bar-in">
+    <h1 class="bar-title">People</h1>
+    <p class="bar-sub">
+      <%= pluralize(@users.size, 'person') %> invited · <%= @users.count(&:last_signed_in_at) %> signed in
+    </p>
+    <%= link_to new_user_path, class: 'chip bar-act press' do %>
+      <%= icon 'userplus', class: 'size-[17px]' %>New user
     <% end %>
   </div>
-  <% unless flash.notice.blank? %>
-    <p class="mx-2 p-4 rounded-md bg-green-600 text-white text-sm text-center">
-      <%= flash.notice %>
-    </p>
-  <% end %>
-  <% @users.each do |u| %>
-    <div
-      class="border border-slate-200 rounded-md my-4 p-4 flex justify-between bg-white shadow-md mx-2"
-      data-controller="users"
-    >
-      <div class="flex flex-col w-3/5">
-        <div class="font-bold text-xl mb-2"><%= u.name %></div>
-        <div class="text-sm text-slate-600 mb-1"><%= u.email %></div>
-        <div class="text-xs uppercase text-slate-400">
-          <% if u.last_signed_in_at %>
-            Signed in <%= time_ago_in_words(u.last_signed_in_at) %> ago
+</header>
+
+<main class="column gutter pb-[calc(var(--sb)+120px)]">
+  <div class="bar-pad"></div>
+  <div class="rows stagger">
+    <% @users.each_with_index do |user, index| %>
+      <div class="row" style="--i: <%= index %>">
+        <div class="row-main">
+          <% if user.admin? %>
+            <div class="row-link"><%= render 'users/summary', user: %></div>
           <% else %>
-            Never signed in
+            <%= link_to edit_user_path(user), class: 'row-link' do %>
+              <%= render 'users/summary', user: %>
+            <% end %>
+          <% end %>
+          <%= button_to user_sign_in_link_path(user), class: 'icon-btn press', form: { class: 'contents' },
+                                                     aria: { label: "Create a sign-in link for #{user.name}" } do %>
+            <%= icon 'key', class: 'size-5' %>
           <% end %>
         </div>
-        <div class="flex-wrap flex flex-col mt-4" id="<%= dom_id(u, :sign_in_link) %>">
-          <%= button_to 'Create sign-in link', user_sign_in_link_path(u), class: 'text-xs text-sky-600 uppercase cursor-pointer' %>
-        </div>
+        <div id="<%= dom_id(user, :sign_in_link) %>"></div>
       </div>
-      <div class="flex flex-col justify-center">
-        <% if u.admin? %>
-          <span class="text-slate-400">Admin </span>
-        <% else %>
-          <%= link_to edit_user_path(u.id) do %>
-            <div class="rounded-md py-2 px-4 border border-blue-300 bg-blue-100 hover:border-blue-600 hover:bg-blue-500 hover:text-white">
-              Edit
-            </div>
-          <% end %>
-        <% end %>
-      </div>
-    </div>
-  <% end %>
-</div>
+    <% end %>
+  </div>
+</main>

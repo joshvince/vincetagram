@@ -1,7 +1,21 @@
-<div class="bg-slate-50 w-full max-w-(--breakpoint-md) flex flex-col items-center justify-center">
-  <% @post_ids.each do |post_id| %>
-    <%= turbo_frame_tag post_id, "feed", src: feed_post_path(post_id), loading: "lazy" do %>
-      <%= render partial: 'posts/loading' %>
+<% content_for :title, 'Feed' %>
+
+<header class="bar" data-controller="condense">
+  <div class="bar-bg"></div>
+  <div class="bar-in">
+    <h1 class="bar-title"><%= icon 'card' %>Vincetagram</h1>
+  </div>
+</header>
+
+<main class="column">
+  <div class="bar-pad"></div>
+  <div class="feed">
+    <% @post_ids.each do |post| %>
+      <%= turbo_frame_tag post, 'feed', src: feed_post_path(post), loading: 'lazy',
+                          class: class_names('is-arriving' => post.id == flash[:arrived]) do %>
+        <%= render 'posts/loading' %>
+      <% end %>
     <% end %>
-  <% end %>
-</div>
+    <p class="feed-end">That's everything so far.</p>
+  </div>
+</main>

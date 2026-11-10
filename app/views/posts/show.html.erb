@@ -1,1 +1,40 @@
-<%= render partial: 'posts/post' %>
+<% content_for :title, "#{@post.user.name}'s post" %>
+<% content_for :hide_dock, true %>
+
+<main class="pv" style="<%= post_tint_style(@post) %>" data-controller="post">
+  <% if @post.photo.attached? %>
+    <%= image_tag @post.photo.variant(:display), class: 'pv-glow', alt: '', aria: { hidden: true } %>
+  <% end %>
+  <div class="column relative">
+    <div class="media" style="<%= post_media_style(@post) %>; view-transition-name: hero" data-post-target="media">
+      <% if @post.video.attached? %>
+        <%= render 'posts/video', post: @post %>
+      <% else %>
+        <%= render 'posts/image', post: @post %>
+      <% end %>
+    </div>
+    <div class="pv-body">
+      <div class="plate-head">
+        <%= avatar @post.user %>
+        <div class="who">
+          <b class="person-name" style="--h: <%= @post.user.hue %>"><%= @post.user.name %></b>
+          <span class="ago"><%= time_ago_in_words(@post.created_at) %> ago</span>
+        </div>
+      </div>
+      <% if @post.caption.present? %>
+        <p class="caption"><%= @post.caption %></p>
+      <% end %>
+      <div><%= render 'posts/copy_link', url: post_url(@post), label: 'Copy link to this post' %></div>
+    </div>
+  </div>
+</main>
+
+<div class="pv-bar">
+  <% if current_user %>
+    <%= link_to feed_path, class: 'pill-btn press', data: { controller: 'back', action: 'back#go' } do %>
+      <%= icon 'left' %>Feed
+    <% end %>
+  <% else %>
+    <span class="pill-btn"><%= icon 'card' %>Vincetagram</span>
+  <% end %>
+</div>
