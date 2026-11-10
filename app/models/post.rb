@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class Post < ApplicationRecord
-  # 1440px covers a 640px column on a 2x screen and a full-width phone at 3x.
+  # 1440px covers a 640px column on a 2x screen and a full-width phone at 3x. Values are strings because
+  # copy URLs round-trip through JSON; symbols would make background jobs save a second, unused copy.
   has_one_attached :photo do |attachable|
-    attachable.variant :display, resize_to_limit: [1440, nil], format: :webp, saver: { quality: 80, keep: :icc },
+    attachable.variant :display, resize_to_limit: [1440, nil], format: 'webp', saver: { quality: 80, keep: 'icc' },
                                  preprocessed: true
   end
   has_one_attached :video

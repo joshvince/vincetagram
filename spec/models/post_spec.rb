@@ -13,4 +13,11 @@ RSpec.describe Post, type: :model do
 
     expect([copy.width, copy.height, copy.get('vips-loader')]).to eq([1440, 960, 'webpload_buffer'])
   end
+
+  it 'saves the display copy once, whether a background job or a browser asks for it first' do
+    photo = described_class.create!(user:, photo: solid_photo(width: 300, height: 200, rgb: [1, 2, 3])).photo
+    variation = photo.variant(:display).variation
+
+    expect(ActiveStorage::Variation.decode(variation.key).digest).to eq(variation.digest)
+  end
 end
