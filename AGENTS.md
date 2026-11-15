@@ -12,7 +12,7 @@
 - take screenshots with the command `screenshot`, if it is available. If it is not available, ask the user
 
 ## Production errors
-- Production errors are reported to errors.joshvince.site as app `vincetagram`. Read `.agents/skills/error-triage/SKILL.md` before reading, fixing, resolving or muting any of them.
+- Production errors are reported to errors.joshvince.site as app `vincetagram`. Use the `error-triage` skill (shared from vinceworks) before reading, fixing, resolving or muting any of them.
 
 ## Infrastucture & Deployment
 - Deployment uses the `Dockerfile` and `docker-compose.yml` in the repo root. Tread carefully and avoid running any write operations on production without explicit permission by a human.
